@@ -377,14 +377,23 @@ username = tg.initDataUnsafe.user.username || 'Usuario';
 // 🔧 PEGA TU CONFIGURACIÓN DE FIREBASE DEBAJO 👇
 // Copia todo el bloque firebaseConfig de Firebase y pégalo aquí
 // ==============================================
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "PON_TU_API_KEY_AQUI",
-  authDomain: "PON_TU_DOMINIO_AQUI",
-  projectId: "PON_TU_PROJECT_ID_AQUI",
-  storageBucket: "PON_TU_BUCKET_AQUI",
-  messagingSenderId: "PON_TU_SENDER_ID_AQUI",
-  appId: "PON_TU_APP_ID_AQUI"
+  apiKey: "AIzaSyAnvFkbl7tS8wtOD0Dewg5zHj_q3zlPcgs",
+  authDomain: "anime-mining-tlg.firebaseapp.com",
+  projectId: "anime-mining-tlg",
+  storageBucket: "anime-mining-tlg.firebasestorage.app",
+  messagingSenderId: "443143848384",
+  appId: "1:443143848384:web:c925cd8754f8094bef4825"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
