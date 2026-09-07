@@ -113,3 +113,64 @@ body::before{
 <div class="app">
   <div class="toast" id="toast"></div>
 
+  <div class="user-modal" id="userModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>👤 Perfil de Usuario</h3>
+        <button class="close-btn" onclick="closeUserModal()">×</button>
+      </div>
+      <div class="stat-row"><span>Usuario</span><span id="modal-username">—</span></div>
+      <div class="stat-row"><span>Nivel</span><span id="modal-level">Nv. 1</span></div>
+      <div class="stat-row"><span>VIP</span><span id="modal-vip">❌ No</span></div>
+      <div class="stat-row"><span>Total Minado</span><span id="modal-total">0 ANIM</span></div>
+      <div class="lang-buttons">
+        <button class="lang-btn active" data-lang="es">🇪🇸 Español</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+        <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+        <button class="lang-btn" data-lang="pt">🇧🇷 Português</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="profile" onclick="openUserModal()">
+      <div class="avatar" id="avatar">⚡</div>
+      <div class="user-info">
+        <h4 id="username">Minero Anime</h4>
+        <p><span id="user-rank">Explorador</span></p>
+      </div>
+    </div>
+    <div class="level-badge" id="user-level">Nv. 1</div>
+  </div>
+
+  <div class="balance-card">
+    <p class="label">💰 Balance Total</p>
+    <div class="amount"><span class="coin">🪙</span><span id="token-count">0.000</span> ANIM</div>
+    <div class="rate-line">
+      <div class="rate-item">⚡ Velocidad: <span id="mine-rate">0.001</span>/seg</div>
+      <div class="rate-item">🔥 Acumulado: <span id="pending-amount">0</span></div>
+    </div>
+  </div>
+
+  <div class="energy-container">
+    <div class="energy-top"><strong>⚡ Energía</strong> <span id="energy-text">100 / 100</span></div>
+    <div class="energy-bar"><div class="energy-fill" id="energy-bar"></div></div>
+  </div>
+
+  <div class="level-prog">
+    <div class="level-top"><strong>📈 Progreso de Nivel</strong> <span id="level-text">0 / 100 XP</span></div>
+    <div class="level-bar"><div class="level-fill" id="level-bar"></div></div>
+  </div>
+
+  <div class="collected-indicator">
+    Acumulado para recolección: <span id="accumulated-display">0.000 ANIM</span>
+  </div>
+
+  <div class="collect-wrap">
+    <div class="collect-glow"></div>
+    <button class="collect-btn" id="collect-button">
+      <span class="icon">⛩️</span>
+      RECOLECTAR
+      <span class="sub">Toca para recibir</span>
+    </button>
+  </div>
