@@ -247,3 +247,35 @@ body::before{
     </div>
   </div>
   
+  <div class="submenu-modal" id="submenu-friends">
+    <div class="submenu-content">
+      <div class="submenu-header">
+        <h2>👥 Sistema de Referidos</h2>
+        <button class="close-submenu" onclick="closeSubmenu('friends')">×</button>
+      </div>
+      <div class="char-banner">
+        <div class="char-avatar">☁️</div>
+        <div class="char-info">
+          <h4>Akatsuki</h4>
+          <p>"La fuerza está en los números..."</p>
+        </div>
+      </div>
+      <div class="referral-box">
+        <h4>🔗 Tu enlace de invitación</h4>
+        <div class="referral-link">
+          <input type="text" class="ref-input" id="ref-link" readonly>
+          <button class="copy-btn" onclick="copyRefLink()">Copiar</button>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:var(--dim)">+50 ANIM para ti +20 ANIM para tu amigo</p>
+      </div>
+      <div class="referral-box">
+        <h4>📊 Estadísticas</h4>
+        <div class="stat-row"><span>Invitados</span><span id="ref-count">0</span></div>
+        <div class="stat-row"><span>Recompensas</span><span id="ref-rewards">0 ANIM</span></div>
+      </div>
+      <h4 style="margin:18px 0 10px">📋 Referidos recientes</h4>
+      <div id="friends-list">
+        <p style="color:var(--dim);text-align:center;padding:20px">Aún no tienes referidos</p>
+      </div>
+    </div>
+  </div>
