@@ -70,13 +70,41 @@ body::before{
 .level-bar{height:8px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
 .level-fill{height:100%;width:5%;background:linear-gradient(90deg,var(--accent-red),var(--accent-gold));border-radius:10px;transition:width .5s ease}
 .collect-wrap{display:flex;justify-content:center;margin:10px 0 28px;position:relative}
-.collect-btn{width:200px;height:200px;border-radius:50%;border:none;background:radial-gradient(circle at 30% 30%,#3a1515,#2c0f0f);color:#fff;font-size:26px;font-weight:900;cursor:pointer;box-shadow:0 0 0 12px rgba(196,30,58,.12),0 0 70px rgba(196,30,58,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;animation:btnPulse 3s infinite ease-in-out}
-.collect-btn:active{transform:scale(.93)}
-.collect-btn .icon{font-size:48px}
-.collect-btn .sub{font-size:12px;opacity:.7}
-.collect-glow{position:absolute;inset:-15px;border-radius:50%;background:radial-gradient(circle,rgba(196,30,58,.3),transparent 70%);animation:pulse 2s infinite;pointer-events:none}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:.25}}
-@keyframes btnPulse{0%,100%{box-shadow:0 0 0 12px rgba(196,30,58,.12),0 0 70px rgba(196,30,58,.4)}50%{box-shadow:0 0 0 15px rgba(196,30,58,.18),0 0 90px rgba(196,30,58,.5)}}
+.collect-btn{
+  width:210px;height:210px;border-radius:50%;border:none;
+  background:transparent;padding:0;cursor:pointer;
+  box-shadow:0 0 0 10px rgba(196,30,58,.15),0 0 60px rgba(255,80,0,.45),0 0 100px rgba(196,30,58,.3);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  animation:btnPulse 3s infinite ease-in-out;
+  transition:transform .2s ease;
+}
+.collect-btn:active{transform:scale(.92)}
+.collect-btn .collect-img{
+  width:100%;height:100%;object-fit:cover;border-radius:50%;
+  display:block;pointer-events:none;
+  /* Remove pure black background effect */
+  mix-blend-mode:normal;
+  filter:contrast(1.08) brightness(1.05);
+}
+.collect-btn .collect-label{
+  position:absolute;bottom:18px;left:0;right:0;
+  text-align:center;font-size:15px;font-weight:800;
+  color:#fff;text-shadow:0 2px 8px #000,0 0 12px rgba(196,30,58,.9);
+  letter-spacing:1px;pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,.55));
+  padding:8px 0 12px;border-radius:0 0 50% 50%;
+}
+.collect-glow{
+  position:absolute;inset:-20px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,60,0,.4),rgba(196,30,58,.2) 40%,transparent 70%);
+  animation:pulse 2.2s infinite ease-in-out;pointer-events:none;z-index:-1;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:.35}}
+@keyframes btnPulse{
+  0%,100%{box-shadow:0 0 0 10px rgba(196,30,58,.15),0 0 50px rgba(255,80,0,.4),0 0 90px rgba(196,30,58,.25)}
+  50%{box-shadow:0 0 0 14px rgba(255,80,0,.25),0 0 80px rgba(255,60,0,.55),0 0 120px rgba(196,30,58,.4)}
+}
 
 .collected-indicator{text-align:center;margin-bottom:18px;color:var(--dim);font-size:13px}
 .collected-indicator span{color:var(--accent-gold);font-weight:700}
@@ -101,14 +129,51 @@ body::before{
 .submenu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .close-submenu{background:none;border:none;color:var(--dim);font-size:28px;cursor:pointer}
 
-.char-banner{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.3);border-radius:var(--radius-lg);padding:12px;margin-bottom:18px;position:relative;overflow:hidden}
-.char-banner::before{content:"";position:absolute;top:0;left:-100%;width:200%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:cloudsMove 8s linear infinite;pointer-events:none}
+.char-banner{
+  display:flex;align-items:center;gap:16px;
+  background:linear-gradient(135deg,rgba(30,10,10,.75),rgba(50,15,15,.6));
+  border-radius:var(--radius-lg);padding:16px;
+  margin-bottom:20px;position:relative;overflow:hidden;
+  min-height:110px;border:1px solid rgba(196,30,58,.25);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+/* Moving clouds / mist effect */
+.char-banner::before{
+  content:"";position:absolute;top:0;left:-100%;width:200%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent 40%,rgba(255,255,255,.04),transparent);
+  animation:cloudsMove 7s linear infinite;pointer-events:none;z-index:2;
+}
 @keyframes cloudsMove{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
-.char-banner::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 30% 50%,rgba(255,80,0,.08),transparent 60%);animation:fireFlicker 2s ease-in-out infinite alternate;pointer-events:none}
-@keyframes fireFlicker{0%{opacity:.4}100%{opacity:.9}}
-.char-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--accent-red),var(--accent-purple));display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;z-index:1;overflow:hidden;animation:breath 4s ease-in-out infinite}
-@keyframes breath{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.03) rotate(1deg)}}
-.char-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* Fire / energy glow flicker */
+.char-banner::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:
+    radial-gradient(circle at 20% 40%,rgba(255,60,0,.18),transparent 45%),
+    radial-gradient(circle at 80% 60%,rgba(196,30,58,.12),transparent 50%);
+  animation:fireFlicker 1.8s ease-in-out infinite alternate;pointer-events:none;z-index:1;
+}
+@keyframes fireFlicker{0%{opacity:.5;filter:brightness(0.9)}100%{opacity:1;filter:brightness(1.2)}}
+.char-avatar{
+  width:95px;height:95px;min-width:95px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent-red),var(--accent-purple));
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:3;overflow:hidden;
+  box-shadow:0 0 0 3px rgba(196,30,58,.4),0 0 25px rgba(255,80,0,.35);
+  animation:breath 3.5s ease-in-out infinite;
+}
+@keyframes breath{
+  0%,100%{transform:scale(1) rotate(0deg)}
+  50%{transform:scale(1.06) rotate(1.5deg)}
+}
+.char-avatar img{
+  width:100%;height:100%;object-fit:cover;border-radius:50%;
+  filter:contrast(1.1) saturate(1.15) brightness(1.05);
+  transition:transform .4s ease;
+}
+.char-avatar:hover img{transform:scale(1.08)}
+.char-info{position:relative;z-index:3;flex:1}
+.char-info h4{font-size:17px;font-weight:700;margin-bottom:4px;text-shadow:0 1px 4px #000}
+.char-info p{font-size:13px;color:var(--dim);line-height:1.3;opacity:.95}
 
 .tab-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
 .tab-btn{padding:10px;border-radius:var(--radius-md);border:none;background:var(--bg-card);color:var(--text);cursor:pointer;transition:var(--transition)}
@@ -201,15 +266,14 @@ body::before{
   <div class="collect-wrap">
     <div class="collect-glow"></div>
     <button class="collect-btn" id="collect-button">
-      <span class="icon">⛩️</span>
-      RECOLECTAR
-      <span class="sub">Toca para recibir</span>
+      <img src="https://i.postimg.cc/RFRQfbgJ/1788820020964.jpg" alt="Recolectar" class="collect-img">
+      <span class="collect-label">RECOLECTAR</span>
     </button>
   </div>
 
   <div class="nav-bar">
     <button class="nav-btn active" data-tab="mine"><span class="n-icon">⛏️</span>Minar</button>
-    <button class="nav-btn" data-tab="upgrades"><span class="n-icon">⚡</span>Mejoras</button>
+    <button class="nav-btn" data-tab="upgrades"><span class="n-icon">⚡</span>Respiración</button>
     <button class="nav-btn" data-tab="friends"><span class="n-icon">👥</span>Amigos</button>
     <button class="nav-btn" data-tab="wallet"><span class="n-icon">💼</span>Billetera</button>
     <button class="nav-btn" data-tab="rewards"><span class="n-icon">🎁</span>Recompensas</button>
@@ -218,7 +282,7 @@ body::before{
   <div class="submenu-modal" id="submenu-upgrades">
     <div class="submenu-content">
       <div class="submenu-header">
-        <h2>⚡ Mejoras y Tienda</h2>
+        <h2>⚡ Respiración y Tienda</h2>
         <button class="close-submenu" onclick="closeSubmenu('upgrades')">×</button>
       </div>
       <div class="char-banner">
@@ -231,7 +295,7 @@ body::before{
         </div>
       </div>
       <div class="tab-buttons">
-        <button class="tab-btn active" data-subtab="upgrades-tab">🔧 Mejoras</button>
+        <button class="tab-btn active" data-subtab="upgrades-tab">🔥 Respiraciones</button>
         <button class="tab-btn" data-subtab="vip-tab">👑 VIP</button>
       </div>
       <div class="tab-content active" id="upgrades-tab">
@@ -308,577 +372,3 @@ body::before{
         <h4>📊 Estadísticas</h4>
         <div class="stat-row"><span>Invitados</span><span id="ref-count">0</span></div>
         <div class="stat-row"><span>Recompensas</span><span id="ref-rewards">0 ANIM</span></div>
-      </div>
-      <h4 style="margin:18px 0 10px">📋 Referidos recientes</h4>
-      <div id="friends-list">
-        <p style="color:var(--dim);text-align:center;padding:20px">Aún no tienes referidos</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="submenu-modal" id="submenu-wallet">
-    <div class="submenu-content">
-      <div class="submenu-header">
-        <h2>💼 Billetera</h2>
-        <button class="close-submenu" onclick="closeSubmenu('wallet')">×</button>
-      </div>
-      <div class="char-banner">
-        <div class="char-avatar">
-          <img src="https://i.postimg.cc/PxLJ7RLs/image-eede4039-2.jpg" alt="Tanjiro & Nezuko">
-        </div>
-        <div class="char-info">
-          <h4>Tanjiro & Nezuko</h4>
-          <p>"Guarda tus tesoros con sabiduría..."</p>
-        </div>
-      </div>
-      <div class="item-card">
-        <div class="item-info"><h5>🪙 ANIM</h5><p>Saldo disponible</p></div>
-        <div class="price-val" id="wallet-anim">0.000</div>
-      </div>
-      <div class="item-card">
-        <div class="item-info"><h5>💎 TON</h5><p>Equivalente estimado</p></div>
-        <div class="price-val" id="wallet-ton">0.000</div>
-      </div>
-      <div class="wallet-address" id="wallet-address-display">
-        
-📌 Conecta tu billetera TON para retirar
-      </div>
-      <button class="buy-btn" style="margin-bottom:16px" id="connect-wallet-btn">🔗 Conectar Billetera TON</button>
-      <div class="convert-section">
-        <h4>💱 Convertir ANIM → TON</h4>
-        <p style="font-size:12px;color:var(--dim);margin:6px 0">Tasa: 10,000 ANIM = 1 TON | Comisión 5% | Mínimo 5,000 ANIM</p>
-        <input type="number" class="convert-input" id="convert-amount" placeholder="Cantidad de ANIM" min="5000" step="1000">
-        <div class="stat-row"><span>Recibirás aprox:</span><span id="convert-result">0.000 TON</span></div>
-        <button class="convert-btn" id="convert-btn">Convertir y Retirar</button>
-      </div>
-      <h4 style="margin:20px 0 10px">📜 Historial</h4>
-      <div id="wallet-history">
-        <p style="color:var(--dim);text-align:center;padding:20px">Sin movimientos aún</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="submenu-modal" id="submenu-rewards">
-    <div class="submenu-content">
-      <div class="submenu-header">
-        <h2>🎁 Recompensas y Misiones</h2>
-        <button class="close-submenu" onclick="closeSubmenu('rewards')">×</button>
-      </div>
-      <div class="char-banner">
-        <div class="char-avatar">
-          <img src="https://i.postimg.cc/wvtMrGtY/image-fd908bc5-2.jpg" alt="Hermanos Tsugikuni">
-        </div>
-        <div class="char-info">
-          <h4>Hermanos Tsugikuni</h4>
-          <p>"Te derrotaré, hermano"</p>
-        </div>
-      </div>
-      <div class="item-card">
-        <div class="item-info">
-          <h5>📅 Bono Diario</h5>
-          <p id="daily-status">Disponible</p>
-        </div>
-        <button class="buy-btn" id="daily-btn">Reclamar +50 ANIM</button>
-      </div>
-      <div class="item-card">
-        <div class="item-info">
-          <h5>🎯 Tareas Diarias</h5>
-          <p>Completa tareas y gana</p>
-        </div>
-        <button class="buy-btn" id="tasks-btn">Ver Tareas</button>
-      </div>
-      <div class="item-card">
-        <div class="item-info">
-          <h5>📈 Subir de Nivel</h5>
-          <p>Recompensa automática al subir</p>
-        </div>
-        <button class="buy-btn" disabled>Activo</button>
-      </div>
-      <div class="task-card">
-        <h4>🎮 Tareas Extra</h4>
-        <p style="font-size:14px;margin:8px 0">• Invitar 3 amigos → +100 ANIM</p>
-        <p style="font-size:14px;margin:8px 0">• Minar 10 minutos → +20 ANIM</p>
-        <p style="font-size:14px;margin:8px 0">• Reclamar 5 días seguidos → +150 ANIM</p>
-        <button class="task-btn" id="verify-tasks-btn">Verificar Progreso</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- FIREBASE -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAnvFkbl7tS8wtOD0Dewg5zHj_q3zlPcgs",
-    authDomain: "anime-mining-tlg.firebaseapp.com",
-    projectId: "anime-mining-tlg",
-    storageBucket: "anime-mining-tlg.firebasestorage.app",
-    messagingSenderId: "443143848384",
-    appId: "1:443143848384:web:c925cd8754f8094bef4825"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.firebaseDB = { db, doc, setDoc, getDoc, increment };
-  // FIX: Avisamos que Firebase ya está listo
-  window.dispatchEvent(new Event('firebase-ready'));
-</script>
-
-<script>
-// ====================== CONTROL DE SONIDO ======================
-let soundEnabled = false;
-let audioCtx = null;
-const bgMusic = document.getElementById('bgMusic');
-const soundToggle = document.getElementById('soundToggle');
-bgMusic.volume = 0.12;
-
-function toggleSound(){
-  soundEnabled = !soundEnabled;
-  if(soundEnabled){
-    bgMusic.play().catch(()=>{});
-    soundToggle.textContent = '🔊';
-    showToast('🔊 Sonido activado');
-  } else {
-    bgMusic.pause();
-    soundToggle.textContent = '🔇';
-    showToast('🔇 Sonido desactivado');
-  }
-}
-
-function playCollectSound(){
-  if(!soundEnabled) return;
-  try {
-    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    o.frequency.value = 440;
-    o.type = 'triangle';
-    g.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-    o.start(audioCtx.currentTime);
-    o.stop(audioCtx.currentTime + 0.3);
-  } catch(e) {}
-}
-
-// ====================== ESTADO ======================
-let state = {
-  userId: null,
-  username: 'Usuario',
-  firstName: 'Minero',
-  balance: 0,
-  pending: 0,
-  totalMined: 0,
-  miningRate: 0.001,
-  energy: 100,
-  maxEnergy: 100,
-  level: 1,
-  xp: 0,
-  xpToNext: 100,
-  pickaxeLevel: 1,
-  energyLevel: 1,
-  luckLevel: 1,
-  vip: null,
-  dailyClaimed: false,
-  lastDaily: null,
-  referrals: 0,
-  referralRewards: 0,
-  referredBy: null,
-  walletAddress: null,
-  lang: 'es',
-  refLink: ''
-};
-
-const urlParams = new URLSearchParams(window.location.search);
-const refFromUrl = urlParams.get('ref');
-
-// ====================== TELEGRAM ======================
-function initTelegram(){
-  if(window.Telegram?.WebApp){
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand(); // FIX: Expandir a pantalla completa
-    tg.setHeaderColor('#1a0f0f');
-    tg.setBackgroundColor('#1a0f0f');
-    
-    if(tg.initDataUnsafe?.user){
-      const user = tg.initDataUnsafe.user;
-      state.username = user.username || 'Usuario';
-      state.firstName = user.first_name || 'Minero';
-      return 'tg_' + user.id;
-    }
-  }
-  // Fallback local
-  let uid = localStorage.getItem('firebaseUserId');
-  if(!uid){
-    uid = 'user_' + Math.random().toString(36).substr(2, 12);
-    localStorage.setItem('firebaseUserId', uid);
-  }
-  return uid;
-}
-
-state.userId = initTelegram();
-state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
-document.getElementById('ref-link').value = state.refLink;
-  
-// ====================== GUARDAR / CARGAR ======================
-async function saveUserData(){
-  localStorage.setItem('animeMiningState', JSON.stringify(state));
-  
-  if(!window.firebaseDB) return;
-  
-  try {
-    const { db, doc, setDoc } = window.firebaseDB;
-    await setDoc(doc(db, 'users', state.userId), state, { merge: true });
-  } catch(e){
-    console.error('Error guardando en Firebase:', e);
-  }
-}
-
-async function loadUserData(){
-  // Primero cargamos de localStorage (rápido)
-  const saved = localStorage.getItem('animeMiningState');
-  if(saved){
-    try {
-      state = {...state, ...JSON.parse(saved)};
-    } catch(e){}
-  }
-
-  // Luego intentamos Firebase
-  if(window.firebaseDB) {
-    try {
-      const { db, doc, getDoc, setDoc, increment } = window.firebaseDB;
-      const docRef = doc(db, 'users', state.userId);
-      const docSnap = await getDoc(docRef);
-      
-      if(docSnap.exists()){
-        state = {...state, ...docSnap.data()};
-        console.log('✅ Datos cargados de la nube');
-      } else {
-        // Usuario nuevo
-        if(refFromUrl && refFromUrl !== state.userId){
-          state.referredBy = refFromUrl;
-          try {
-            await setDoc(doc(db, 'users', refFromUrl), {
-              referrals: increment(1),
-              referralRewards: increment(50)
-            }, { merge: true });
-          } catch(e){}
-          state.balance += 20;
-          showToast('🎉 ¡Te uniste con un referido! +20 ANIM');
-        }
-        await saveUserData();
-        console.log('🆕 Usuario nuevo creado');
-      }
-    } catch(e){
-      console.error('Error cargando de Firebase:', e);
-    }
-  }
-
-  // Reset diario
-  const hoy = new Date().toDateString();
-  if(state.lastDaily && state.lastDaily !== hoy){
-    state.dailyClaimed = false;
-  }
-
-  updateUI();
-}
-
-// Guardado automático cada 8 segundos
-setInterval(saveUserData, 8000);
-
-// ====================== UI ======================
-function updateUI(){
-  document.getElementById('username').textContent = state.firstName || state.username;
-  document.getElementById('modal-username').textContent = state.firstName || state.username;
-  document.getElementById('token-count').textContent = state.balance.toFixed(3);
-  document.getElementById('pending-amount').textContent = state.pending.toFixed(3);
-  document.getElementById('accumulated-display').textContent = state.pending.toFixed(3) + ' ANIM';
-  document.getElementById('mine-rate').textContent = state.miningRate.toFixed(3);
-  document.getElementById('energy-text').textContent = Math.round(state.energy) + ' / ' + state.maxEnergy;
-  document.getElementById('energy-bar').style.width = Math.min(100, (state.energy / state.maxEnergy * 100)) + '%';
-  document.getElementById('user-level').textContent = 'Nv. ' + state.level;
-  document.getElementById('modal-level').textContent = 'Nv. ' + state.level;
-  document.getElementById('level-text').textContent = Math.round(state.xp) + ' / ' + state.xpToNext + ' XP';
-  document.getElementById('level-bar').style.width = Math.min(100, (state.xp / state.xpToNext * 100)) + '%';
-  document.getElementById('modal-total').textContent = state.totalMined.toFixed(3) + ' ANIM';
-  document.getElementById('wallet-anim').textContent = state.balance.toFixed(3);
-  document.getElementById('wallet-ton').textContent = (state.balance / 10000).toFixed(4);
-  document.getElementById('ref-count').textContent = state.referrals || 0;
-  document.getElementById('ref-rewards').textContent = (state.referralRewards || 0).toFixed(3) + ' ANIM';
-  
-  document.getElementById('pick-level').textContent = state.pickaxeLevel;
-  document.getElementById('energy-level').textContent = state.energyLevel;
-  document.getElementById('luck-level').textContent = state.luckLevel;
-
-  document.getElementById('pick-cost').textContent = (50 * Math.pow(1.5, state.pickaxeLevel - 1)).toFixed(3) + ' ANIM';
-  document.getElementById('energy-cost').textContent = (80 * Math.pow(1.5, state.energyLevel - 1)).toFixed(3) + ' ANIM';
-  document.getElementById('luck-cost').textContent = (120 * Math.pow(1.5, state.luckLevel - 1)).toFixed(3) + ' ANIM';
-  
-  if(state.walletAddress){
-    document.getElementById('wallet-address-display').textContent = '📌 Billetera: ' + state.walletAddress;
-    document.getElementById('connect-wallet-btn').textContent = '✅ Billetera Conectada';
-  }
-
-  const dailyBtn = document.getElementById('daily-btn');
-  if(state.dailyClaimed){
-    dailyBtn.disabled = true;
-    dailyBtn.textContent = '✓ Reclamado';
-    document.getElementById('daily-status').textContent = 'Vuelve mañana';
-  } else {
-    dailyBtn.disabled = false;
-    dailyBtn.textContent = 'Reclamar +50 ANIM';
-    document.getElementById('daily-status').textContent = 'Disponible';
-  }
-}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
-}
-
-// ====================== MINERÍA ======================
-setInterval(()=>{
-  if(state.energy > 0){
-    state.pending += state.miningRate;
-    state.energy = Math.max(0, state.energy - 0.05);
-    state.xp += 0.02;
-    
-    if(state.xp >= state.xpToNext){
-      state.level++;
-      state.xp -= state.xpToNext;
-      state.xpToNext = Math.floor(state.xpToNext * 1.3);
-      const reward = state.level * 10;
-      state.balance += reward;
-      state.totalMined += reward;
-      showToast('🎉 ¡Subiste al Nivel ' + state.level + '! +' + reward + ' ANIM');
-      saveUserData(); // FIX: Guardar al subir de nivel
-    }
-    updateUI();
-  }
-}, 1000);
-
-// Recuperar energía
-setInterval(()=>{
-  if(state.energy < state.maxEnergy){
-    state.energy = Math.min(state.maxEnergy, state.energy + 1);
-    updateUI();
-  }
-}, 3000);
-
-// ====================== RECOLECTAR ======================
-document.getElementById('collect-button').addEventListener('click', ()=>{
-  if(state.pending <= 0) return;
-  
-  playCollectSound();
-  const bonus = 1 + (state.luckLevel - 1) * 0.1;
-  const amount = state.pending * bonus;
-  state.balance += amount;
-  state.totalMined += amount;
-  state.pending = 0;
-  showToast('✅ ¡Recolectado! +' + amount.toFixed(3) + ' ANIM');
-  updateUI();
-  saveUserData(); // FIX: Guardar inmediatamente
-});
-
-// ====================== NAVEGACIÓN (CORREGIDA) ======================
-function closeAllSubmenus(){
-  document.querySelectorAll('.submenu-modal').forEach(m => m.classList.remove('active'));
-}
-
-document.querySelectorAll('.nav-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    const tab = btn.dataset.tab;
-    closeAllSubmenus(); // FIX: Cerrar todos primero
-    
-    if(tab !== 'mine'){
-      document.getElementById('submenu-' + tab).classList.add('active');
-    }
-  });
-});
-  
-function closeSubmenu(name){
-  document.getElementById('submenu-' + name).classList.remove('active');
-  // Volver a marcar "Minar" como activo
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.nav-btn[data-tab="mine"]').classList.add('active');
-}
-
-// ====================== PERFIL ======================
-function openUserModal(){ document.getElementById('userModal').classList.add('active'); }
-function closeUserModal(){ document.getElementById('userModal').classList.remove('active'); }
-
-document.querySelectorAll('.lang-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.lang = btn.dataset.lang;
-    showToast('🌐 Idioma actualizado a ' + btn.textContent.trim());
-    saveUserData();
-  });
-});
-
-// Pestañas internas de mejoras
-document.querySelectorAll('[data-subtab]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('[data-subtab]').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.subtab).classList.add('active');
-  });
-});
-
-// ====================== REFERIDOS ======================
-function copyRefLink(){
-  navigator.clipboard.writeText(state.refLink).then(()=>{
-    showToast('📋 ¡Enlace copiado!');
-  }).catch(()=>{
-    // Fallback
-    const input = document.getElementById('ref-link');
-    input.select();
-    document.execCommand('copy');
-    showToast('📋 ¡Enlace copiado!');
-  });
-}
-
-// ====================== COMPRAS ======================
-document.getElementById('buy-pick').addEventListener('click', ()=>{
-  const cost = 50 * Math.pow(1.5, state.pickaxeLevel - 1);
-  if(state.balance >= cost && state.pickaxeLevel < 50){
-    state.balance -= cost;
-    state.pickaxeLevel++;
-    state.miningRate += 0.002;
-    showToast('⛏️ ¡Pico mejorado! Nivel ' + state.pickaxeLevel);
-    updateUI();
-    saveUserData(); // FIX
-  } else {
-    showToast(state.pickaxeLevel >= 50 ? 'Máximo alcanzado' : 'Saldo insuficiente');
-  }
-});
-
-document.getElementById('buy-energy').addEventListener('click', ()=>{
-  const cost = 80 * Math.pow(1.5, state.energyLevel - 1);
-  if(state.balance >= cost){
-    state.balance -= cost;
-    state.energyLevel++;
-    state.maxEnergy += 20;
-    state.energy = Math.min(state.energy + 20, state.maxEnergy);
-    showToast('🔋 ¡Energía aumentada!');
-    updateUI();
-    saveUserData(); // FIX
-  } else showToast('Saldo insuficiente');
-});
-
-document.getElementById('buy-luck').addEventListener('click', ()=>{
-  const cost = 120 * Math.pow(1.5, state.luckLevel - 1);
-  if(state.balance >= cost){
-    state.balance -= cost;
-    state.luckLevel++;
-    showToast('🎯 ¡Suerte aumentada! +10% bonus');
-    updateUI();
-    saveUserData(); // FIX
-  } else showToast('Saldo insuficiente');
-});
-
-// ====================== BONO DIARIO ======================
-document.getElementById('daily-btn').addEventListener('click', ()=>{
-  if(state.dailyClaimed) return;
-  
-  state.balance += 50;
-  state.totalMined += 50;
-  state.dailyClaimed = true;
-  state.lastDaily = new Date().toDateString();
-  showToast('✅ ¡Bono diario reclamado! +50 ANIM');
-  updateUI();
-  saveUserData(); // FIX
-});
-
-// ====================== BILLETERA ======================
-document.getElementById('connect-wallet-btn').addEventListener('click', ()=>{
-  const wallet = prompt('Ingresa tu dirección de Billetera TON:');
-  if(wallet && wallet.trim().length > 10){
-    state.walletAddress = wallet.trim();
-    showToast('✅ Billetera guardada');
-    updateUI();
-    saveUserData(); // FIX
-  } else if(wallet !== null) {
-    showToast('⚠️ Dirección inválida');
-  }
-});
-
-document.getElementById('convert-amount').addEventListener('input', e=>{
-  const amt = parseFloat(e.target.value) || 0;
-  const result = amt >= 5000 ? (amt / 10000 * 0.95).toFixed(4) : '0.0000';
-  document.getElementById('convert-result').textContent = result + ' TON';
-});
-
-document.getElementById('convert-btn').addEventListener('click', ()=>{
-  if(!state.walletAddress) return showToast('⚠️ Primero conecta tu Billetera TON');
-  
-  const inputEl = document.getElementById('convert-amount');
-  const amt = parseFloat(inputEl.value) || 0;
-  
-  if(amt < 5000) return showToast('Mínimo 5,000 ANIM');
-  if(state.balance < amt) return showToast('Saldo insuficiente');
-  
-  state.balance -= amt;
-  inputEl.value = '';
-  document.getElementById('convert-result').textContent = '0.0000 TON';
-  showToast('✅ Conversión solicitada (demo)');
-  updateUI();
-  saveUserData(); // FIX
-});
-  
-// ====================== TAREAS ======================
-document.getElementById('tasks-btn').addEventListener('click', ()=>{
-  showToast('🎯 Tareas actualizadas');
-});
-
-document.getElementById('verify-tasks-btn').addEventListener('click', ()=>{
-  showToast('🔍 Verificando avance de tareas...');
-});
-
-// Cerrar modales al tocar fuera
-document.querySelectorAll('.submenu-modal, .user-modal').forEach(modal=>{
-  modal.addEventListener('click', e=>{
-    if(e.target === modal){
-      modal.classList.remove('active');
-      if(modal.classList.contains('submenu-modal')){
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.nav-btn[data-tab="mine"]').classList.add('active');
-      }
-    }
-  });
-});
-
-// ====================== INICIO SEGURO ======================
-// FIX: Esperamos a que Firebase esté listo (o timeout de 2.5s)
-function startApp(){
-  if(window.firebaseDB){
-    loadUserData();
-  } else {
-    window.addEventListener('firebase-ready', () => loadUserData(), { once: true });
-    // Fallback por si falla el evento
-    setTimeout(() => {
-      if(!window.__appStarted){
-        window.__appStarted = true;
-        loadUserData();
-      }
-    }, 2500);
-  }
-}
-
-startApp();
-</script>
-</body>
-</html>
