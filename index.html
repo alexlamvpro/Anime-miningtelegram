@@ -214,3 +214,130 @@ body::before{
     <button class="nav-btn" data-tab="wallet"><span class="n-icon">💼</span>Billetera</button>
     <button class="nav-btn" data-tab="rewards"><span class="n-icon">🎁</span>Recompensas</button>
   </div>
+<!-- Submenús (sin cambios de HTML) -->
+  <div class="submenu-modal" id="submenu-upgrades">
+    <div class="submenu-content">
+      <div class="submenu-header">
+        <h2>⚡ Mejoras y Tienda</h2>
+        <button class="close-submenu" onclick="closeSubmenu('upgrades')">×</button>
+      </div>
+      <div class="char-banner">
+        <div class="char-avatar">
+          <img src="https://i.postimg.cc/mDckn5P0/image-9ac8780f-2.jpg" alt="Muzan Kibutsuji">
+        </div>
+        <div class="char-info">
+          <h4>Muzan Kibutsuji</h4>
+          <p>"Todo tiene un precio, humano asqueroso"</p>
+        </div>
+      </div>
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-subtab="upgrades-tab">🔧 Mejoras</button>
+        <button class="tab-btn" data-subtab="vip-tab">👑 VIP</button>
+      </div>
+      <div class="tab-content active" id="upgrades-tab">
+        <div class="item-card">
+          <div class="item-info">
+            <h5>⛏️ Pico de Minero Lv. <span id="pick-level">1</span></h5>
+            <p>+0.002 ANIM/seg (Máx: 50)</p>
+          </div>
+          <div class="price-val" id="pick-cost">50.000 ANIM</div>
+          <button class="buy-btn" id="buy-pick">Comprar</button>
+        </div>
+        <div class="item-card">
+          <div class="item-info">
+            <h5>🔋 Energía Máx Lv. <span id="energy-level">1</span></h5>
+            <p>+20 energía máxima</p>
+          </div>
+          <div class="price-val" id="energy-cost">80.000 ANIM</div>
+          <button class="buy-btn" id="buy-energy">Comprar</button>
+        </div>
+        <div class="item-card">
+          <div class="item-info">
+            <h5>🎯 Suerte Minera Lv. <span id="luck-level">1</span></h5>
+            <p>+10% bonus al recolectar</p>
+          </div>
+          <div class="price-val" id="luck-cost">120.000 ANIM</div>
+          <button class="buy-btn" id="buy-luck">Comprar</button>
+        </div>
+      </div>
+      <div class="tab-content" id="vip-tab">
+        <div class="item-card">
+          <div class="item-info">
+            <h5>🥈 VIP Estándar</h5>
+            <p>+30% minería, sin anuncios</p>
+          </div>
+          <div class="price-val">0.8 TON</div>
+          <button class="buy-btn" onclick="showToast('Próximamente opción de pago TON')">Adquirir</button>
+        </div>
+        <div class="item-card">
+          <div class="item-info">
+            <h5>👑 VIP Premium</h5>
+            <p>+60% minería, 0% comisión</p>
+          </div>
+          <div class="price-val">2.5 TON</div>
+          <button class="buy-btn" onclick="showToast('Próximamente opción de pago TON')">Adquirir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submenu-modal" id="submenu-friends">
+    <div class="submenu-content">
+      <div class="submenu-header">
+        <h2>👥 Sistema de Referidos</h2>
+        <button class="close-submenu" onclick="closeSubmenu('friends')">×</button>
+      </div>
+      <div class="char-banner">
+        <div class="char-avatar">
+          <img src="https://i.postimg.cc/MKBRHvpJ/Screenshot-20260906-210320.jpg" alt="Los Pilares">
+        </div>
+        <div class="char-info">
+          <h4>Los Pilares</h4>
+          <p>"Nada es imposible con los amigos"</p>
+        </div>
+      </div>
+      <div class="referral-box">
+        <h4>🔗 Tu enlace de invitación</h4>
+        <div class="referral-link">
+          <input type="text" class="ref-input" id="ref-link" readonly>
+          <button class="copy-btn" onclick="copyRefLink()">Copiar</button>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:var(--dim)">+50 ANIM para ti +20 ANIM para tu amigo</p>
+      </div>
+      <div class="referral-box">
+        <h4>📊 Estadísticas</h4>
+        <div class="stat-row"><span>Invitados</span><span id="ref-count">0</span></div>
+        <div class="stat-row"><span>Recompensas</span><span id="ref-rewards">0 ANIM</span></div>
+      </div>
+      <h4 style="margin:18px 0 10px">📋 Referidos recientes</h4>
+      <div id="friends-list">
+        <p style="color:var(--dim);text-align:center;padding:20px">Aún no tienes referidos</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="submenu-modal" id="submenu-wallet">
+    <div class="submenu-content">
+      <div class="submenu-header">
+        <h2>💼 Billetera</h2>
+        <button class="close-submenu" onclick="closeSubmenu('wallet')">×</button>
+      </div>
+      <div class="char-banner">
+        <div class="char-avatar">
+          <img src="https://i.postimg.cc/PxLJ7RLs/image-eede4039-2.jpg" alt="Tanjiro & Nezuko">
+        </div>
+        <div class="char-info">
+          <h4>Tanjiro & Nezuko</h4>
+          <p>"Guarda tus tesoros con sabiduría..."</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-info"><h5>🪙 ANIM</h5><p>Saldo disponible</p></div>
+        <div class="price-val" id="wallet-anim">0.000</div>
+      </div>
+      <div class="item-card">
+        <div class="item-info"><h5>💎 TON</h5><p>Equivalente estimado</p></div>
+        <div class="price-val" id="wallet-ton">0.000</div>
+      </div>
+      <div class="wallet-address" id="wallet-address-display">
+        
