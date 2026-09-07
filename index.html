@@ -707,3 +707,135 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
   });
 });
   
+function closeSubmenu(name){
+  document.getElementById('submenu-' + name).classList.remove('active');
+  // Volver a marcar "Minar" como activo
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.nav-btn[data-tab="mine"]').classList.add('active');
+}
+
+// ====================== PERFIL ======================
+function openUserModal(){ document.getElementById('userModal').classList.add('active'); }
+function closeUserModal(){ document.getElementById('userModal').classList.remove('active'); }
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.lang = btn.dataset.lang;
+    showToast('🌐 Idioma actualizado a ' + btn.textContent.trim());
+    saveUserData();
+  });
+});
+
+// Pestañas internas de mejoras
+document.querySelectorAll('[data-subtab]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-subtab]').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.subtab).classList.add('active');
+  });
+});
+
+// ====================== REFERIDOS ======================
+function copyRefLink(){
+  navigator.clipboard.writeText(state.refLink).then(()=>{
+    showToast('📋 ¡Enlace copiado!');
+  }).catch(()=>{
+    // Fallback
+    const input = document.getElementById('ref-link');
+    input.select();
+    document.execCommand('copy');
+    showToast('📋 ¡Enlace copiado!');
+  });
+}
+
+// ====================== COMPRAS ======================
+document.getElementById('buy-pick').addEventListener('click', ()=>{
+  const cost = 50 * Math.pow(1.5, state.pickaxeLevel - 1);
+  if(state.balance >= cost && state.pickaxeLevel < 50){
+    state.balance -= cost;
+    state.pickaxeLevel++;
+    state.miningRate += 0.002;
+    showToast('⛏️ ¡Pico mejorado! Nivel ' + state.pickaxeLevel);
+    updateUI();
+    saveUserData(); // FIX
+  } else {
+    showToast(state.pickaxeLevel >= 50 ? 'Máximo alcanzado' : 'Saldo insuficiente');
+  }
+});
+
+document.getElementById('buy-energy').addEventListener('click', ()=>{
+  const cost = 80 * Math.pow(1.5, state.energyLevel - 1);
+  if(state.balance >= cost){
+    state.balance -= cost;
+    state.energyLevel++;
+    state.maxEnergy += 20;
+    state.energy = Math.min(state.energy + 20, state.maxEnergy);
+    showToast('🔋 ¡Energía aumentada!');
+    updateUI();
+    saveUserData(); // FIX
+  } else showToast('Saldo insuficiente');
+});
+
+document.getElementById('buy-luck').addEventListener('click', ()=>{
+  const cost = 120 * Math.pow(1.5, state.luckLevel - 1);
+  if(state.balance >= cost){
+    state.balance -= cost;
+    state.luckLevel++;
+    showToast('🎯 ¡Suerte aumentada! +10% bonus');
+    updateUI();
+    saveUserData(); // FIX
+  } else showToast('Saldo insuficiente');
+});
+
+// ====================== BONO DIARIO ======================
+document.getElementById('daily-btn').addEventListener('click', ()=>{
+  if(state.dailyClaimed) return;
+  
+  state.balance += 50;
+  state.totalMined += 50;
+  state.dailyClaimed = true;
+  state.lastDaily = new Date().toDateString();
+  showToast('✅ ¡Bono diario reclamado! +50 ANIM');
+  updateUI();
+  saveUserData(); // FIX
+});
+
+// ====================== BILLETERA ======================
+document.getElementById('connect-wallet-btn').addEventListener('click', ()=>{
+  const wallet = prompt('Ingresa tu dirección de Billetera TON:');
+  if(wallet && wallet.trim().length > 10){
+    state.walletAddress = wallet.trim();
+    showToast('✅ Billetera guardada');
+    updateUI();
+    saveUserData(); // FIX
+  } else if(wallet !== null) {
+    showToast('⚠️ Dirección inválida');
+  }
+});
+
+document.getElementById('convert-amount').addEventListener('input', e=>{
+  const amt = parseFloat(e.target.value) || 0;
+  const result = amt >= 5000 ? (amt / 10000 * 0.95).toFixed(4) : '0.0000';
+  document.getElementById('convert-result').textContent = result + ' TON';
+});
+
+document.getElementById('convert-btn').addEventListener('click', ()=>{
+  if(!state.walletAddress) return showToast('⚠️ Primero conecta tu Billetera TON');
+  
+  const inputEl = document.getElementById('convert-amount');
+  const amt = parseFloat(inputEl.value) || 0;
+  
+  if(amt < 5000) return showToast('Mínimo 5,000 ANIM');
+  if(state.balance < amt) return showToast('Saldo insuficiente');
+  
+  state.balance -= amt;
+  inputEl.value = '';
+  document.getElementById('convert-result').textContent = '0.0000 TON';
+  showToast('✅ Conversión solicitada (demo)');
+  updateUI();
+  saveUserData(); // FIX
+});
+  
