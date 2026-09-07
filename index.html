@@ -341,3 +341,66 @@ body::before{
       </div>
       <div class="wallet-address" id="wallet-address-display">
         
+📌 Conecta tu billetera TON para retirar
+      </div>
+      <button class="buy-btn" style="margin-bottom:16px" id="connect-wallet-btn">🔗 Conectar Billetera TON</button>
+      <div class="convert-section">
+        <h4>💱 Convertir ANIM → TON</h4>
+        <p style="font-size:12px;color:var(--dim);margin:6px 0">Tasa: 10,000 ANIM = 1 TON | Comisión 5% | Mínimo 5,000 ANIM</p>
+        <input type="number" class="convert-input" id="convert-amount" placeholder="Cantidad de ANIM" min="5000" step="1000">
+        <div class="stat-row"><span>Recibirás aprox:</span><span id="convert-result">0.000 TON</span></div>
+        <button class="convert-btn" id="convert-btn">Convertir y Retirar</button>
+      </div>
+      <h4 style="margin:20px 0 10px">📜 Historial</h4>
+      <div id="wallet-history">
+        <p style="color:var(--dim);text-align:center;padding:20px">Sin movimientos aún</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="submenu-modal" id="submenu-rewards">
+    <div class="submenu-content">
+      <div class="submenu-header">
+        <h2>🎁 Recompensas y Misiones</h2>
+        <button class="close-submenu" onclick="closeSubmenu('rewards')">×</button>
+      </div>
+      <div class="char-banner">
+        <div class="char-avatar">
+          <img src="https://i.postimg.cc/wvtMrGtY/image-fd908bc5-2.jpg" alt="Hermanos Tsugikuni">
+        </div>
+        <div class="char-info">
+          <h4>Hermanos Tsugikuni</h4>
+          <p>"Te derrotaré, hermano"</p>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-info">
+          <h5>📅 Bono Diario</h5>
+          <p id="daily-status">Disponible</p>
+        </div>
+        <button class="buy-btn" id="daily-btn">Reclamar +50 ANIM</button>
+      </div>
+      <div class="item-card">
+        <div class="item-info">
+          <h5>🎯 Tareas Diarias</h5>
+          <p>Completa tareas y gana</p>
+        </div>
+        <button class="buy-btn" id="tasks-btn">Ver Tareas</button>
+      </div>
+      <div class="item-card">
+        <div class="item-info">
+          <h5>📈 Subir de Nivel</h5>
+          <p>Recompensa automática al subir</p>
+        </div>
+        <button class="buy-btn" disabled>Activo</button>
+      </div>
+      <div class="task-card">
+        <h4>🎮 Tareas Extra</h4>
+        <p style="font-size:14px;margin:8px 0">• Invitar 3 amigos → +100 ANIM</p>
+        <p style="font-size:14px;margin:8px 0">• Minar 10 minutos → +20 ANIM</p>
+        <p style="font-size:14px;margin:8px 0">• Reclamar 5 días seguidos → +150 ANIM</p>
+        <button class="task-btn" id="verify-tasks-btn">Verificar Progreso</button>
+      </div>
+    </div>
+  </div>
+</div>
