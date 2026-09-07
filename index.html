@@ -404,3 +404,125 @@ body::before{
     </div>
   </div>
 </div>
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAnvFkbl7tS8wtOD0Dewg5zHj_q3zlPcgs",
+    authDomain: "anime-mining-tlg.firebaseapp.com",
+    projectId: "anime-mining-tlg",
+    storageBucket: "anime-mining-tlg.firebasestorage.app",
+    messagingSenderId: "443143848384",
+    appId: "1:443143848384:web:c925cd8754f8094bef4825"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.firebaseDB = { db, doc, setDoc, getDoc, increment };
+  // FIX: Avisamos que Firebase ya está listo
+  window.dispatchEvent(new Event('firebase-ready'));
+</script>
+
+<script>
+// ====================== CONTROL DE SONIDO ======================
+let soundEnabled = false;
+let audioCtx = null;
+const bgMusic = document.getElementById('bgMusic');
+const soundToggle = document.getElementById('soundToggle');
+bgMusic.volume = 0.12;
+
+function toggleSound(){
+  soundEnabled = !soundEnabled;
+  if(soundEnabled){
+    bgMusic.play().catch(()=>{});
+    soundToggle.textContent = '🔊';
+    showToast('🔊 Sonido activado');
+  } else {
+    bgMusic.pause();
+    soundToggle.textContent = '🔇';
+    showToast('🔇 Sonido desactivado');
+  }
+}
+
+function playCollectSound(){
+  if(!soundEnabled) return;
+  try {
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.frequency.value = 440;
+    o.type = 'triangle';
+    g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    o.start(audioCtx.currentTime);
+    o.stop(audioCtx.currentTime + 0.3);
+  } catch(e) {}
+}
+
+// ====================== ESTADO ======================
+let state = {
+  userId: null,
+  username: 'Usuario',
+  firstName: 'Minero',
+  balance: 0,
+  pending: 0,
+  totalMined: 0,
+  miningRate: 0.001,
+  energy: 100,
+  maxEnergy: 100,
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  pickaxeLevel: 1,
+  energyLevel: 1,
+  luckLevel: 1,
+  vip: null,
+  dailyClaimed: false,
+  lastDaily: null,
+  referrals: 0,
+  referralRewards: 0,
+  referredBy: null,
+  walletAddress: null,
+  lang: 'es',
+  refLink: ''
+};
+
+const urlParams = new URLSearchParams(window.location.search);
+const refFromUrl = urlParams.get('ref');
+
+// ====================== TELEGRAM ======================
+function initTelegram(){
+  if(window.Telegram?.WebApp){
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand(); // FIX: Expandir a pantalla completa
+    tg.setHeaderColor('#1a0f0f');
+    tg.setBackgroundColor('#1a0f0f');
+    
+    if(tg.initDataUnsafe?.user){
+      const user = tg.initDataUnsafe.user;
+      state.username = user.username || 'Usuario';
+      state.firstName = user.first_name || 'Minero';
+      return 'tg_' + user.id;
+    }
+  }
+  // Fallback local
+  let uid = localStorage.getItem('firebaseUserId');
+  if(!uid){
+    uid = 'user_' + Math.random().toString(36).substr(2, 12);
+    localStorage.setItem('firebaseUserId', uid);
+  }
+  return uid;
+}
+
+state.userId = initTelegram();
+state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
+document.getElementById('ref-link').value = state.refLink;
+  
