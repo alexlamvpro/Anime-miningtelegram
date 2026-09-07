@@ -396,4 +396,109 @@ function saveState(){
 }
 
 // Referidos
-state.refLink = window.location.origin + window.location.pa
+state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
+
+// Inicializar Telegram
+if(window.Telegram && window.Telegram.WebApp){
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  if(tg.initDataUnsafe && tg.initDataUnsafe.user){
+    state.username = tg.initDataUnsafe.user.username || 'Usuario';
+    state.firstName = tg.initDataUnsafe.user.first_name || 'Minero';
+    document.getElementById('username').textContent = state.firstName || state.username;
+    document.getElementById('modal-username').textContent = state.firstName || state.username;
+  }
+}
+
+loadState();
+document.getElementById('ref-link').value = state.refLink;
+function updateUI(){
+  document.getElementById('token-count').textContent = state.balance.toFixed(3);
+  document.getElementById('pending-amount').textContent = state.pending.toFixed(3);
+  document.getElementById('accumulated-display').textContent = state.pending.toFixed(3) + ' ANIM';
+  document.getElementById('mine-rate').textContent = state.miningRate.toFixed(3);
+  document.getElementById('energy-text').textContent = state.energy.toFixed(0) + ' / ' + state.maxEnergy;
+  document.getElementById('energy-bar').style.width = (state.energy / state.maxEnergy * 100) + '%';
+  document.getElementById('user-level').textContent = 'Nv. ' + state.level;
+  document.getElementById('modal-level').textContent = 'Nv. ' + state.level;
+  document.getElementById('level-text').textContent = state.xp + ' / ' + state.xpToNext + ' XP';
+  document.getElementById('level-bar').style.width = (state.xp / state.xpToNext * 100) + '%';
+  document.getElementById('modal-total').textContent = state.totalMined.toFixed(3) + ' ANIM';
+  document.getElementById('wallet-anim').textContent = state.balance.toFixed(3);
+  document.getElementById('wallet-ton').textContent = (state.balance / 10000).toFixed(4);
+  document.getElementById('ref-count').textContent = state.referrals;
+  document.getElementById('ref-rewards').textContent = state.referralRewards.toFixed(3) + ' ANIM';
+  
+  document.getElementById('pick-level').textContent = state.pickaxeLevel;
+  document.getElementById('energy-level').textContent = state.energyLevel;
+  document.getElementById('luck-level').textContent = state.luckLevel;
+  
+  const dailyBtn = document.getElementById('daily-btn');
+  if(state.dailyClaimed){
+    dailyBtn.disabled = true;
+    dailyBtn.textContent = '✓ Reclamado';
+    document.getElementById('daily-status').textContent = 'Vuelve mañana';
+  }
+  
+  saveState();
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+// Minería
+setInterval(()=>{
+  if(state.energy > 0){
+    state.pending += state.miningRate;
+    state.energy = Math.max(0, state.energy - 0.05);
+    state.xp += 0.02;
+    
+    if(state.xp >= state.xpToNext){
+      state.level++;
+      state.xp -= state.xpToNext;
+      state.xpToNext = Math.floor(state.xpToNext * 1.3);
+      state.balance += state.level * 10;
+      state.totalMined += state.level * 10;
+      showToast('🎉 ¡Subiste al Nivel ' + state.level + '! +' + (state.level*10) + ' ANIM');
+    }
+    updateUI();
+  }
+}, 1000);
+
+// Recuperar energía
+setInterval(()=>{
+  if(state.energy < state.maxEnergy){
+    state.energy = Math.min(state.maxEnergy, state.energy + 1);
+    updateUI();
+  }
+}, 3000);
+
+// Botón recolectar
+document.getElementById('collect-button').addEventListener('click', ()=>{
+  if(state.pending > 0){
+    const bonus = 1 + (state.luckLevel - 1) * 0.1;
+    const amount = state.pending * bonus;
+    state.balance += amount;
+    state.totalMined += amount;
+    state.pending = 0;
+    showToast('✅ ¡Recolectado! +' + amount.toFixed(3) + ' ANIM');
+    updateUI();
+  }
+});
+
+// Navegación
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    if(tab !== 'mine'){
+      document.getElementById('submenu-' + tab).classList.add('active');
+    }
+  });
+});
+
+  
