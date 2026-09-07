@@ -526,3 +526,70 @@ state.userId = initTelegram();
 state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
 document.getElementById('ref-link').value = state.refLink;
   
+// ====================== GUARDAR / CARGAR ======================
+async function saveUserData(){
+  localStorage.setItem('animeMiningState', JSON.stringify(state));
+  
+  if(!window.firebaseDB) return;
+  
+  try {
+    const { db, doc, setDoc } = window.firebaseDB;
+    await setDoc(doc(db, 'users', state.userId), state, { merge: true });
+  } catch(e){
+    console.error('Error guardando en Firebase:', e);
+  }
+}
+
+async function loadUserData(){
+  // Primero cargamos de localStorage (rápido)
+  const saved = localStorage.getItem('animeMiningState');
+  if(saved){
+    try {
+      state = {...state, ...JSON.parse(saved)};
+    } catch(e){}
+  }
+
+  // Luego intentamos Firebase
+  if(window.firebaseDB) {
+    try {
+      const { db, doc, getDoc, setDoc, increment } = window.firebaseDB;
+      const docRef = doc(db, 'users', state.userId);
+      const docSnap = await getDoc(docRef);
+      
+      if(docSnap.exists()){
+        state = {...state, ...docSnap.data()};
+        console.log('✅ Datos cargados de la nube');
+      } else {
+        // Usuario nuevo
+        if(refFromUrl && refFromUrl !== state.userId){
+          state.referredBy = refFromUrl;
+          try {
+            await setDoc(doc(db, 'users', refFromUrl), {
+              referrals: increment(1),
+              referralRewards: increment(50)
+            }, { merge: true });
+          } catch(e){}
+          state.balance += 20;
+          showToast('🎉 ¡Te uniste con un referido! +20 ANIM');
+        }
+        await saveUserData();
+        console.log('🆕 Usuario nuevo creado');
+      }
+    } catch(e){
+      console.error('Error cargando de Firebase:', e);
+    }
+  }
+
+  // Reset diario
+  const hoy = new Date().toDateString();
+  if(state.lastDaily && state.lastDaily !== hoy){
+    state.dailyClaimed = false;
+  }
+
+  updateUI();
+}
+
+// Guardado automático cada 8 segundos
+setInterval(saveUserData, 8000);
+
+  
