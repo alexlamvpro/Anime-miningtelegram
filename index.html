@@ -360,3 +360,55 @@ body::before{
       </div>
     </div>
   </div>
+<script>
+// Estado del juego
+let state = {
+  balance: 0,
+  pending: 0,
+  totalMined: 0,
+  miningRate: 0.001,
+  energy: 100,
+  maxEnergy: 100,
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  pickaxeLevel: 1,
+  energyLevel: 1,
+  luckLevel: 1,
+  vip: null,
+  dailyClaimed: false,
+  lastDaily: null,
+  referrals: 0,
+  referralRewards: 0,
+  userId: 'user_' + Math.random().toString(36).substr(2, 9),
+  lang: 'es'
+};
+
+// Cargar datos guardados
+function loadState(){
+  const saved = localStorage.getItem('animeMiningState');
+  if(saved){
+    state = {...state, ...JSON.parse(saved)};
+  }
+}
+function saveState(){
+  localStorage.setItem('animeMiningState', JSON.stringify(state));
+}
+
+// Referidos
+state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
+
+// Inicializar Telegram
+if(window.Telegram && window.Telegram.WebApp){
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  if(tg.initDataUnsafe && tg.initDataUnsafe.user){
+    state.username = tg.initDataUnsafe.user.username || 'Usuario';
+    state.firstName = tg.initDataUnsafe.user.first_name || 'Minero';
+    document.getElementById('username').textContent = state.firstName || state.username;
+    document.getElementById('modal-username').textContent = state.firstName || state.username;
+  }
+}
+
+loadState();
+document.getElementById('ref-link').value = state.refLink;
