@@ -412,3 +412,40 @@ if(window.Telegram && window.Telegram.WebApp){
 
 loadState();
 document.getElementById('ref-link').value = state.refLink;
+function updateUI(){
+  document.getElementById('token-count').textContent = state.balance.toFixed(3);
+  document.getElementById('pending-amount').textContent = state.pending.toFixed(3);
+  document.getElementById('accumulated-display').textContent = state.pending.toFixed(3) + ' ANIM';
+  document.getElementById('mine-rate').textContent = state.miningRate.toFixed(3);
+  document.getElementById('energy-text').textContent = state.energy.toFixed(0) + ' / ' + state.maxEnergy;
+  document.getElementById('energy-bar').style.width = (state.energy / state.maxEnergy * 100) + '%';
+  document.getElementById('user-level').textContent = 'Nv. ' + state.level;
+  document.getElementById('modal-level').textContent = 'Nv. ' + state.level;
+  document.getElementById('level-text').textContent = state.xp + ' / ' + state.xpToNext + ' XP';
+  document.getElementById('level-bar').style.width = (state.xp / state.xpToNext * 100) + '%';
+  document.getElementById('modal-total').textContent = state.totalMined.toFixed(3) + ' ANIM';
+  document.getElementById('wallet-anim').textContent = state.balance.toFixed(3);
+  document.getElementById('wallet-ton').textContent = (state.balance / 10000).toFixed(4);
+  document.getElementById('ref-count').textContent = state.referrals;
+  document.getElementById('ref-rewards').textContent = state.referralRewards.toFixed(3) + ' ANIM';
+  
+  document.getElementById('pick-level').textContent = state.pickaxeLevel;
+  document.getElementById('energy-level').textContent = state.energyLevel;
+  document.getElementById('luck-level').textContent = state.luckLevel;
+  
+  const dailyBtn = document.getElementById('daily-btn');
+  if(state.dailyClaimed){
+    dailyBtn.disabled = true;
+    dailyBtn.textContent = '✓ Reclamado';
+    document.getElementById('daily-status').textContent = 'Vuelve mañana';
+  }
+  
+  saveState();
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
