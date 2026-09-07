@@ -361,8 +361,38 @@ body::before{
     </div>
   </div>
 <script>
+username = tg.initDataUnsafe.user.username || 'Usuario';
+    state.firstName = tg.initDataUnsafe.user.first_name || 'Minero';
+    document.getElementById('username').textContent = state.firstName || state.username;
+    document.getElementById('modal-username').textContent = state.firstName || state.username;
+  }
+}
+
+<!-- PARTE 7 — Firebase + Carga/Guardado en Nube -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+// ==============================================
+// 🔧 PEGA TU CONFIGURACIÓN DE FIREBASE DEBAJO 👇
+// Copia todo el bloque firebaseConfig de Firebase y pégalo aquí
+// ==============================================
+const firebaseConfig = {
+  apiKey: "PON_TU_API_KEY_AQUI",
+  authDomain: "PON_TU_DOMINIO_AQUI",
+  projectId: "PON_TU_PROJECT_ID_AQUI",
+  storageBucket: "PON_TU_BUCKET_AQUI",
+  messagingSenderId: "PON_TU_SENDER_ID_AQUI",
+  appId: "PON_TU_APP_ID_AQUI"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 // Estado del juego
 let state = {
+  userId: null,
   balance: 0,
   pending: 0,
   totalMined: 0,
@@ -380,38 +410,95 @@ let state = {
   lastDaily: null,
   referrals: 0,
   referralRewards: 0,
-  userId: 'user_' + Math.random().toString(36).substr(2, 9),
+  referredBy: null,
   lang: 'es'
 };
 
-// Cargar datos guardados
-function loadState(){
-  const saved = localStorage.getItem('animeMiningState');
-  if(saved){
-    state = {...state, ...JSON.parse(saved)};
+// Referido desde URL
+const urlParams = new URLSearchParams(window.location.search);
+const refFromUrl = urlParams.get('ref');
+
+// Generar o recuperar ID de usuario
+function getUserId(){
+  let uid = localStorage.getItem('firebaseUserId');
+  if(!uid){
+    uid = 'user_' + Math.random().toString(36).substr(2, 12);
+    localStorage.setItem('firebaseUserId', uid);
   }
-}
-function saveState(){
-  localStorage.setItem('animeMiningState', JSON.stringify(state));
+  return uid;
 }
 
-// Referidos
-state.refLink = window.location.origin + window.location.pathname + '?ref=' + state.userId;
+state.userId = getUserId();
+state.refLink = 'https://alexlamvpro.github.io/Anime-miningtelegram/?ref=' + state.userId;
+
+// Cargar datos desde Firestore
+async function loadUserData(){
+  try {
+    const docRef = db.collection('users').doc(state.userId);
+    const doc = await docRef.get();
+    
+    if(doc.exists){
+      const data = doc.data();
+      state = {...state, ...data};
+      console.log('✅ Datos cargados de la nube');
+    } else {
+      // Usuario nuevo
+      if(refFromUrl && refFromUrl !== state.userId){
+        state.referredBy = refFromUrl;
+        // Dar bono al referido
+        await db.collection('users').doc(refFromUrl).set({
+          referrals: firebase.firestore.FieldValue.increment(1),
+          referralRewards: firebase.firestore.FieldValue.increment(50)
+        }, {merge: true});
+        showToast('🎉 ¡Te uniste con un referido! +20 ANIM de bienvenida');
+        state.balance += 20;
+      }
+      await saveUserData(true);
+      console.log('🆕 Usuario nuevo creado');
+    }
+    updateUI();
+  } catch(e){
+    console.error('Error cargando:', e);
+    // Fallback a localStorage
+    const saved = localStorage.getItem('animeMiningState');
+    if(saved) state = {...state, ...JSON.parse(saved)};
+    updateUI();
+  }
+}
+
+// Guardar datos en Firestore
+async function saveUserData(force = false){
+  try {
+    await db.collection('users').doc(state.userId).set(state, {merge: true});
+    localStorage.setItem('animeMiningState', JSON.stringify(state));
+  } catch(e){
+    console.error('Error guardando:', e);
+    localStorage.setItem('animeMiningState', JSON.stringify(state));
+  }
+}
+
+// Guardar automáticamente cada 10 segundos
+setInterval(() => saveUserData(), 10000);
 
 // Inicializar Telegram
 if(window.Telegram && window.Telegram.WebApp){
   const tg = window.Telegram.WebApp;
   tg.ready();
-  if(tg.initDataUnsafe && tg.initDataUnsafe.user){
-    state.username = tg.initDataUnsafe.user.username || 'Usuario';
-    state.firstName = tg.initDataUnsafe.user.first_name || 'Minero';
-    document.getElementById('username').textContent = state.firstName || state.username;
-    document.getElementById('modal-username').textContent = state.firstName || state.username;
+  if(tg.initDataUnsafe?.user){
+    const user = tg.initDataUnsafe.user;
+    state.username = user.username || 'Usuario';
+    state.firstName = user.first_name || 'Minero';
+    document.getElementById('username').textContent = state.firstName;
+    document.getElementById('modal-username').textContent = state.firstName;
   }
 }
 
-loadState();
 document.getElementById('ref-link').value = state.refLink;
+
+// Iniciar carga de datos
+loadUserData();
+</script>
+  
 function updateUI(){
   document.getElementById('token-count').textContent = state.balance.toFixed(3);
   document.getElementById('pending-amount').textContent = state.pending.toFixed(3);
