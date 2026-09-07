@@ -839,3 +839,46 @@ document.getElementById('convert-btn').addEventListener('click', ()=>{
   saveUserData(); // FIX
 });
   
+// ====================== TAREAS ======================
+document.getElementById('tasks-btn').addEventListener('click', ()=>{
+  showToast('🎯 Tareas actualizadas');
+});
+
+document.getElementById('verify-tasks-btn').addEventListener('click', ()=>{
+  showToast('🔍 Verificando avance de tareas...');
+});
+
+// Cerrar modales al tocar fuera
+document.querySelectorAll('.submenu-modal, .user-modal').forEach(modal=>{
+  modal.addEventListener('click', e=>{
+    if(e.target === modal){
+      modal.classList.remove('active');
+      if(modal.classList.contains('submenu-modal')){
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.nav-btn[data-tab="mine"]').classList.add('active');
+      }
+    }
+  });
+});
+
+// ====================== INICIO SEGURO ======================
+// FIX: Esperamos a que Firebase esté listo (o timeout de 2.5s)
+function startApp(){
+  if(window.firebaseDB){
+    loadUserData();
+  } else {
+    window.addEventListener('firebase-ready', () => loadUserData(), { once: true });
+    // Fallback por si falla el evento
+    setTimeout(() => {
+      if(!window.__appStarted){
+        window.__appStarted = true;
+        loadUserData();
+      }
+    }, 2500);
+  }
+}
+
+startApp();
+</script>
+</body>
+</html>
