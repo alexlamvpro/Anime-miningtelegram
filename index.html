@@ -38,10 +38,26 @@ body::before{
 .app{position:relative;z-index:1;width:100%;max-width:430px;margin:0 auto;padding:10px 14px 20px;display:flex;flex-direction:column;min-height:100vh}
 
 /* ===== BOTONES FLOTANTES (Menú + Ajustes) ===== */
-.header-actions{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:10px;gap:10px;
-}
+<!-- HEADER: Balance + Menú/Ajustes -->
+<div class="header-actions">
+
+  <button class="menu-btn" onclick="openMenu()">☰</button>
+
+  <div class="balance-card">
+    <div class="balance-label">Balance Total</div>
+    <div class="balance-amount">
+      <div class="anim-icon">A</div>
+      <span id="token-count">0.000</span>
+    </div>
+    <div class="balance-rates">
+      <div class="rate-pill">⚡ <span id="mine-rate">0.001</span>/s</div>
+      <div class="rate-pill">🔥 <span id="pending-amount">0</span></div>
+    </div>
+  </div>
+
+  <button class="settings-btn" onclick="openModal('settings')">⚙️</button>
+
+</div>
 .menu-btn,.settings-btn{
   width:40px;height:40px;border-radius:12px;border:none;
   background:var(--bg-card-2);color:#fff;font-size:18px;
