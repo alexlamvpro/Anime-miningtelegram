@@ -285,15 +285,25 @@ body::before{
   <div class="toast" id="toast"></div>
 
   <!-- HEADER: Menú + Balance + Ajustes -->
-  <div class="header-actions">
-    <button class="menu-btn" onclick="openMenu()">☰</button>
-    
-    <div class="balance-card">
-      <div class="balance-label">Balance Total</div>
-      <div class="balance-amount">
-        <div class="anim-icon">A</div>
-        <span id="token-count">0.000</span>
-      </div>
+<div class="header-actions">
+
+  <button class="menu-btn" onclick="openMenu()">☰</button>
+
+  <div class="balance-card">
+    <div class="balance-label">Balance Total</div>
+    <div class="balance-amount">
+      <div class="anim-icon">A</div>
+      <span id="token-count">0.000</span>
+    </div>
+    <div class="balance-rates">
+      <div class="rate-pill">⚡ <span id="mine-rate">0.001</span>/s</div>
+      <div class="rate-pill">🔥 <span id="pending-amount">0</span></div>
+    </div>
+  </div>
+
+  <button class="settings-btn" onclick="openModal('settings')">⚙️</button>
+
+</div>
       <div class="balance-rates">
         <div class="rate-pill">⚡ <span id="mine-rate">0.001</span>/s</div>
         <div class="rate-pill">🔥 <span id="pending-amount">0</span></div>
