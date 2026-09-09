@@ -988,24 +988,24 @@ async function saveUserData(){
 
 async function loadUserData(){
   const s = localStorage.getItem('animeMiningState');
-  if(s) try{ state = {...state, ...JSON.parse(s)}; }catch(e){}
+  if(s) try{ 
+    let local = JSON.parse(s);
+    state.firstName = local.firstName || state.firstName;
+  }catch(e){}
+  
   if(window.firebaseDB){
     try{
       const {db,doc,getDoc,setDoc,increment} = window.firebaseDB;
       const snap = await getDoc(doc(db,'users',state.userId));
       if(snap.exists()){
         const d = snap.data();
-        state = {...state, ...d,
-          balance: Math.max(state.balance||0, d.balance||0),
-          pending: Math.max(state.pending||0, d.pending||0),
-          totalMined: Math.max(state.totalMined||0, d.totalMined||0),
-          tonInvested: Math.max(state.tonInvested||0, d.tonInvested||0)
-        };
+        state = {...state, ...d};
       } else {
-        const ref = new URLSearchParams(location.search).get('ref');
-        if(ref && ref !== state.userId && isValidId(ref)){
+        const params = new URLSearchParams(location.search);
+        const ref = params.get('ref');
+        if(ref && ref !== state.userId && ref.startsWith('tg_')){
           state.referredBy = ref;
-          try{ await setDoc(doc(db,'users',ref), {referrals:increment(1), referralRewards:increment(50)}, {merge:true}); }catch(e){}
+          try{ await setDoc(doc(db,'users',ref), {referrals:increment(1)}, {merge:true}); }catch(e){}
           state.balance += 20;
           showToast('🎉 +20 ANIM por referido');
         }
@@ -1018,9 +1018,9 @@ async function loadUserData(){
     const sec = Math.floor((now - state.lastTimestamp)/1000);
     if(sec > 10 && state.energy > 0){
       recalculateMiningRate();
-      const mined = +((Math.min(sec,86400) * state.miningRate).toFixed(3));
-      state.pending = +(state.pending + mined).toFixed(3);
-      if(mined > 0) showToast(`🌙 +${mined} ANIM offline`);
+      const mined = +((Math.min(sec,86400) * state.miningRate).toFixed(6));
+      state.pending = +(state.pending + mined).toFixed(6);
+      if(mined > 0) showToast(`🌙 +${mined} mientras no estabas`);
     }
   }
   state.lastTimestamp = now;
@@ -1028,6 +1028,7 @@ async function loadUserData(){
   recalculateMiningRate();
   updateUI();
 }
+
 setInterval(saveUserData, 12000);
 
 function updateUI(){
