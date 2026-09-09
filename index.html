@@ -978,7 +978,7 @@ function renderTasks(){
 
 async function saveUserData(){
   state.lastTimestamp = Date.now();
-  localStorage.setItem('animeMiningState', JSON.stringify(state));
+  localStorage.setItem('animeMiningState', JSON.stringify({userId: state.userId, firstName: state.firstName}));
   if(!window.firebaseDB) return;
   try{
     const {db,doc,setDoc} = window.firebaseDB;
