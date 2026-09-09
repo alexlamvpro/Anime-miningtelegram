@@ -696,7 +696,7 @@ let state = {
   dailyTasks: { date: null, checkin: false, completed: {} },
   referrals: 0, referralRewards: 0, referredBy: null,
   walletAddress: null, lastTimestamp: Date.now(), lang: localStorage.getItem('animeMiningLang') || 'es', language: localStorage.getItem('animeMiningLang') || 'es', refLink: ''
-
+ };
 const isValidId = id => typeof id === 'string' && /^[a-zA-Z0-9_-]{3,100}$/.test(id);
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function isVipActive(){ return state.vip && state.vip.expires > Date.now(); }
