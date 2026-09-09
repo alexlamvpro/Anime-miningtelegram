@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Anime Mining — Demon Slayer Edition</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <style>
 :root{
   --bg-main:#1a0f0f;
@@ -37,44 +39,48 @@ body::before{
 }
 .app{position:relative;z-index:1;width:100%;max-width:430px;margin:0 auto;padding:10px 14px 20px;display:flex;flex-direction:column;min-height:100vh}
 
-/* ===== BOTONES FLOTANTES (Menú + Ajustes) ===== */
-.header-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
-    position: relative;
-}
-
-.header-actions .balance-card {
-    margin: 0 auto;
-}
-
-.header-actions .menu-btn,
-.header-actions .settings-btn {
-    position: absolute;
-    right: 0;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-actions .menu-btn {
-    top: 0;
-}
-
-.header-actions .settings-btn {
-    top: 52px;
+/* ===== HEADER (solo balance) ===== */
+.header-actions{
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:10px;
 }
 .menu-btn,.settings-btn{
-  width:40px;height:40px;border-radius:12px;border:none;
+  width:42px;height:42px;border-radius:14px;border:none;
   background:var(--bg-card-2);color:#fff;font-size:18px;
   display:flex;align-items:center;justify-content:center;
   backdrop-filter:blur(8px);cursor:pointer;
-  box-shadow:0 2px 10px rgba(0,0,0,.35);flex-shrink:0;
+  box-shadow:0 2px 12px rgba(0,0,0,.4);
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease;
+  position:relative;
+  overflow:hidden;
+}
+.menu-btn:active,.settings-btn:active{transform:scale(.88)}
+.menu-btn:hover,.settings-btn:hover{
+  background:rgba(196,30,58,.35);
+  box-shadow:0 0 16px rgba(196,30,58,.45);
+}
+.menu-btn::after,.settings-btn::after{
+  content:"";position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,183,3,.15),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.menu-btn:hover::after,.settings-btn:hover::after{opacity:1}
+
+/* Contenedor de botones a la derecha del Recolectar */
+.side-btns{
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  z-index:5;
+  animation:fadeSlideIn .6s ease-out .2s both;
+}
+@keyframes fadeSlideIn{
+  from{opacity:0;transform:translateY(-50%) translateX(20px)}
+  to{opacity:1;transform:translateY(-50%) translateX(0)}
 }
 
 /* ===== BALANCE REDISEÑADO ===== */
@@ -96,6 +102,11 @@ body::before{
 .balance-amount{
   font-size:32px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;
   position:relative;text-shadow:0 2px 12px rgba(196,30,58,.5);
+  animation:balanceGlow 4s ease-in-out infinite;
+}
+@keyframes balanceGlow{
+  0%,100%{text-shadow:0 2px 12px rgba(196,30,58,.5)}
+  50%{text-shadow:0 2px 18px rgba(255,183,3,.55),0 0 28px rgba(196,30,58,.4)}
 }
 .anim-icon{
   width:32px;height:32px;border-radius:50%;
@@ -135,6 +146,11 @@ body::before{
   background:linear-gradient(90deg,#10b981,#4ade80,#a3e635);
   box-shadow:0 0 10px rgba(16,185,129,.5);
   transition:width .35s ease;
+  animation:energyPulse 2.2s ease-in-out infinite;
+}
+@keyframes energyPulse{
+  0%,100%{box-shadow:0 0 8px rgba(16,185,129,.45)}
+  50%{box-shadow:0 0 16px rgba(74,222,128,.7)}
 }
 .energy-text{font-size:11px;color:var(--dim);min-width:55px;text-align:right}
 
@@ -147,9 +163,9 @@ body::before{
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
   animation:btnPulse 3s infinite ease-in-out;
-  transition:transform .2s;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
 }
-.collect-btn:active{transform:scale(.93)}
+.collect-btn:active{transform:scale(.90)}
 .collect-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;pointer-events:none}
 .collect-label{
   position:absolute;bottom:16px;left:0;right:0;text-align:center;
@@ -157,10 +173,15 @@ body::before{
   text-shadow:0 2px 8px #000,0 0 10px rgba(196,30,58,.9);
   background:linear-gradient(transparent,rgba(0,0,0,.55));
   padding:6px 0 10px;border-radius:0 0 50% 50%;pointer-events:none;
+  animation:labelGlow 2.5s ease-in-out infinite;
 }
 @keyframes btnPulse{
   0%,100%{box-shadow:0 0 0 8px rgba(196,30,58,.18),0 0 45px rgba(255,80,0,.35)}
-  50%{box-shadow:0 0 0 12px rgba(255,80,0,.25),0 0 70px rgba(255,60,0,.5)}
+  50%{box-shadow:0 0 0 14px rgba(255,80,0,.28),0 0 75px rgba(255,60,0,.55)}
+}
+@keyframes labelGlow{
+  0%,100%{text-shadow:0 2px 8px #000,0 0 10px rgba(196,30,58,.9)}
+  50%{text-shadow:0 2px 8px #000,0 0 18px rgba(255,183,3,.95),0 0 30px rgba(196,30,58,.6)}
 }
 .pending-line{text-align:center;font-size:13px;color:var(--dim);margin-bottom:8px}
 .pending-line span{color:var(--accent-gold);font-weight:700}
@@ -176,19 +197,23 @@ body::before{
   background:none;border:none;color:var(--dim);
   font-size:11px;padding:8px 12px;border-radius:14px;
   display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
+  transition:color .25s ease, background .25s ease, transform .2s ease;
 }
-.nav-btn .n-icon{font-size:20px}
+.nav-btn:active{transform:scale(.92)}
+.nav-btn .n-icon{font-size:20px;transition:transform .25s ease}
 .nav-btn.active{color:#fff;background:rgba(196,30,58,.28)}
+.nav-btn.active .n-icon{transform:scale(1.15)}
 
 /* ===== TOAST ===== */
 .toast{
   position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-120px);
   background:var(--bg-card-2);padding:12px 22px;border-radius:14px;
-  z-index:9999;transition:transform .35s;font-weight:600;
-  max-width:90%;text-align:center;font-size:14px;
-  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  z-index:9999;transition:transform .4s cubic-bezier(.34,1.4,.64,1), opacity .3s;
+  font-weight:600;max-width:90%;text-align:center;font-size:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,.5),0 0 20px rgba(196,30,58,.25);
+  opacity:0;
 }
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 /* ===== MENU LATERAL ===== */
 .menu-overlay{
@@ -284,33 +309,19 @@ body::before{
 <div class="app">
   <div class="toast" id="toast"></div>
 
-  <!-- HEADER: Menú + Balance + Ajustes -->
-<div class="header-actions">
-
-  <button class="menu-btn" onclick="openMenu()">☰</button>
-
-  <div class="balance-card">
-    <div class="balance-label">Balance Total</div>
-    <div class="balance-amount">
-      <div class="anim-icon">A</div>
-      <span id="token-count">0.000</span>
-    </div>
-    <div class="balance-rates">
-      <div class="rate-pill">⚡ <span id="mine-rate">0.001</span>/s</div>
-      <div class="rate-pill">🔥 <span id="pending-amount">0</span></div>
-    </div>
-  </div>
-
-  <button class="settings-btn" onclick="openModal('settings')">⚙️</button>
-
-</div>
+  <!-- HEADER: solo Balance -->
+  <div class="header-actions">
+    <div class="balance-card">
+      <div class="balance-label">Balance Total</div>
+      <div class="balance-amount">
+        <div class="anim-icon">A</div>
+        <span id="token-count">0.000</span>
+      </div>
       <div class="balance-rates">
         <div class="rate-pill">⚡ <span id="mine-rate">0.001</span>/s</div>
         <div class="rate-pill">🔥 <span id="pending-amount">0</span></div>
       </div>
     </div>
-
-    <button class="settings-btn" onclick="openModal('settings')">⚙️</button>
   </div>
 
   <!-- ENERGÍA DELGADA -->
@@ -325,12 +336,16 @@ body::before{
 
   <div class="pending-line">Acumulado: <span id="accumulated-display">0.000 ANIM</span></div>
 
-  <!-- COLLECT -->
+  <!-- COLLECT + botones laterales (Menú arriba · Ajustes abajo) -->
   <div class="collect-wrap">
     <button class="collect-btn" id="collect-button">
       <img src="https://i.postimg.cc/RFRQfbgJ/1788820020964.jpg" alt="Recolectar">
       <span class="collect-label">RECOLECTAR</span>
     </button>
+    <div class="side-btns">
+      <button class="menu-btn" onclick="openMenu()" title="Menú">☰</button>
+      <button class="settings-btn" onclick="openModal('settings')" title="Ajustes">⚙️</button>
+    </div>
   </div>
 
   <!-- NAV -->
@@ -623,17 +638,22 @@ const VIP_MINING_BONUS = 0.50;
 const DAILY_NORMAL = 50;
 const DAILY_VIP = 15000;
 
+// ========== CONFIGURACIÓN (cámbialos por tus valores reales) ==========
+const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID";          // partner.adsgram.ai → Rewarded block
+const TON_MERCHANT_ADDRESS = "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"; // tu wallet
+const TONCONNECT_MANIFEST_URL = "https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json";
+// =====================================================================
+
+let AdController = null;
+let tonConnectUI = null;
+
 // ===== 15 TAREAS DIARIAS =====
-// 1-5: AdsGram (ver anuncio)
-// 6-15: Misiones externas (otras apps / canales)
 const TASKS = [
-  // AdsGram
   { id: 1,  type: 'ad', title: '📺 Anuncio 1', desc: 'Mira un anuncio corto', rewardNormal: 40, rewardVip: 3000 },
   { id: 2,  type: 'ad', title: '📺 Anuncio 2', desc: 'Mira un anuncio corto', rewardNormal: 40, rewardVip: 3000 },
   { id: 3,  type: 'ad', title: '📺 Anuncio 3', desc: 'Mira un anuncio corto', rewardNormal: 50, rewardVip: 3500 },
   { id: 4,  type: 'ad', title: '📺 Anuncio 4', desc: 'Mira un anuncio corto', rewardNormal: 50, rewardVip: 3500 },
   { id: 5,  type: 'ad', title: '📺 Anuncio 5', desc: 'Mira un anuncio corto', rewardNormal: 60, rewardVip: 4000 },
-  // Misiones externas
   { id: 6,  type: 'external', title: '📢 Unirse al Canal Oficial', desc: 'Únete al canal de Anime Mining', rewardNormal: 80, rewardVip: 5000, link: 'https://t.me/ANIME_MINING_OFICIAL' },
   { id: 7,  type: 'external', title: '💬 Entrar al Grupo de Chat', desc: 'Únete al grupo oficial', rewardNormal: 80, rewardVip: 5000, link: 'https://t.me/+c34ziM0gjlJjMWJh' },
   { id: 8,  type: 'external', title: '🛠️ Seguir Soporte', desc: 'Entra al canal de soporte', rewardNormal: 60, rewardVip: 4000, link: 'https://t.me/+J52GmerlZPpmZGVh' },
@@ -673,7 +693,7 @@ let state = {
   breathLevel: 0, purchasedBreaths: {},
   vip: null, tonInvested: 0,
   lastDaily: null,
-  dailyTasks: { date: null, checkin: false, completed: {} }, // completed: { 1: true, 2: true, ... }
+  dailyTasks: { date: null, checkin: false, completed: {} },
   referrals: 0, referralRewards: 0, referredBy: null,
   walletAddress: null, lastTimestamp: Date.now(), lang: 'es', refLink: ''
 };
@@ -741,43 +761,144 @@ function renderBreathList(){
   });
 }
 
+// ========== ADSGRAM ==========
+function initAdsGram(){
+  try{
+    if(window.Adsgram && ADSGRAM_BLOCK_ID && ADSGRAM_BLOCK_ID !== "YOUR_ADSGRAM_BLOCK_ID"){
+      AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+      console.log("AdsGram listo");
+    } else {
+      console.warn("AdsGram: configura ADSGRAM_BLOCK_ID real");
+    }
+  }catch(e){ console.warn("AdsGram init error", e); }
+}
+
+function showRewardedAd(){
+  return new Promise((resolve, reject) => {
+    if(!AdController){
+      showToast("📺 (Modo demo) Anuncio simulado");
+      setTimeout(() => resolve({demo:true}), 1200);
+      return;
+    }
+    AdController.show()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err));
+  });
+}
+
+// ========== TON CONNECT ==========
+function initTonConnect(){
+  try{
+    if(!window.TON_CONNECT_UI) {
+      console.warn("TON Connect UI no cargado");
+      return;
+    }
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: TONCONNECT_MANIFEST_URL,
+    });
+
+    tonConnectUI.onStatusChange((wallet) => {
+      if(wallet && wallet.account){
+        state.walletAddress = wallet.account.address;
+        showToast("✅ Billetera TON conectada");
+        updateUI();
+        saveUserData();
+      } else {
+        if(state.walletAddress){
+          state.walletAddress = null;
+          updateUI();
+          saveUserData();
+        }
+      }
+    });
+
+    if(tonConnectUI.account){
+      state.walletAddress = tonConnectUI.account.address;
+    }
+  }catch(e){ console.warn("TON Connect init error", e); }
+}
+
+async function connectTonWallet(){
+  if(!tonConnectUI) return showToast("TON Connect no disponible");
+  try{
+    await tonConnectUI.openModal();
+  }catch(e){
+    showToast("Error al abrir conexión de billetera");
+  }
+}
+
+async function payWithTON(amountTON, comment = "Anime Mining"){
+  if(!tonConnectUI) {
+    showToast("TON Connect no disponible");
+    return false;
+  }
+  if(!tonConnectUI.connected){
+    showToast("Conecta tu billetera primero");
+    await connectTonWallet();
+    return false;
+  }
+  if(TON_MERCHANT_ADDRESS.includes("AAAA") || TON_MERCHANT_ADDRESS.length < 20){
+    showToast("⚠️ Configura TON_MERCHANT_ADDRESS real");
+    const ok = confirm(`DEMO: ¿Simular pago de ${amountTON} TON?\n(Configura tu wallet real para pagos verdaderos)`);
+    return ok;
+  }
+
+  const nano = Math.floor(amountTON * 1e9).toString();
+  const tx = {
+    validUntil: Math.floor(Date.now() / 1000) + 300,
+    messages: [{
+      address: TON_MERCHANT_ADDRESS,
+      amount: nano
+    }]
+  };
+
+  try{
+    showToast("⏳ Abriendo billetera...");
+    const result = await tonConnectUI.sendTransaction(tx);
+    console.log("TX result", result);
+    return true;
+  }catch(e){
+    console.error(e);
+    showToast("❌ Pago cancelado o fallido");
+    return false;
+  }
+}
+
 function buyBreath(level){
   const b = BREATHS.find(x=>x.level===level);
   if(!b) return;
   if(b.costType==='ANIM'){
     if(state.balance < b.cost) return showToast('❌ Saldo insuficiente');
     state.balance = +(state.balance - b.cost).toFixed(3);
+    applyBreath(level, b);
   } else {
-    // ⚠️ SIMULACIÓN - Aquí se integrará el pago real con TON / Telegram Stars
-    const ok = confirm(
-      `⚠️ MODO SIMULACIÓN (aún no hay pago real)\n\n` +
-      `¿Activar ${b.name} por ${b.cost} TON?\n\n` +
-      `Esto solo es para pruebas. Cuando integremos pagos reales, aquí se pedirá el pago verdadero.`
-    );
-    if(!ok) return;
-    state.tonInvested = +(state.tonInvested + b.cost).toFixed(2);
+    (async () => {
+      const paid = await payWithTON(b.cost, `Breath Lv${level}`);
+      if(!paid) return;
+      state.tonInvested = +(state.tonInvested + b.cost).toFixed(2);
+      applyBreath(level, b);
+    })();
   }
+}
+
+function applyBreath(level, b){
   if(level > state.breathLevel) state.breathLevel = level;
   if(level > 1) state.purchasedBreaths[level] = Date.now() + EXPIRATION_90_DAYS;
-  showToast(`🔥 ${b.name} activada (simulación)`);
+  showToast(`🔥 ${b.name} activada`);
   recalculateMiningRate(); updateUI(); saveUserData();
 }
 
 function buyVIP(){
   if(isVipActive()) return showToast('Ya tienes VIP activo');
-  // ⚠️ SIMULACIÓN - Aquí se integrará el pago real con TON / Telegram Stars
-  const ok = confirm(
-    `⚠️ MODO SIMULACIÓN (aún no hay pago real)\n\n` +
-    `¿Activar VIP Demon Slayer por 5 TON?\n\n` +
-    `• 15 días\n• +50% minería\n• Recompensas diarias altas\n\n` +
-    `Esto solo es para pruebas. El pago real se agregará después.`
-  );
-  if(!ok) return;
-  state.tonInvested = +(state.tonInvested + VIP_COST).toFixed(2);
-  state.vip = { start: Date.now(), expires: Date.now() + VIP_DURATION };
-  state.dailyTasks = { date: todayStr(), checkin: false, completed: {} };
-  showToast('👑 VIP activado 15 días (simulación)');
-  recalculateMiningRate(); updateUI(); saveUserData();
+  (async () => {
+    const paid = await payWithTON(VIP_COST, "VIP Demon Slayer 15d");
+    if(!paid) return;
+    state.tonInvested = +(state.tonInvested + VIP_COST).toFixed(2);
+    state.vip = { start: Date.now(), expires: Date.now() + VIP_DURATION };
+    state.dailyTasks = { date: todayStr(), checkin: false, completed: {} };
+    showToast('👑 VIP activado 15 días');
+    recalculateMiningRate(); updateUI(); saveUserData();
+  })();
 }
 
 function resetDailyIfNeeded(){
@@ -806,23 +927,26 @@ function claimTask(id){
   const task = TASKS.find(t => t.id === id);
   if(!task) return;
 
-  // Si es anuncio → aquí se integrará AdsGram
+  const giveReward = () => {
+    const reward = isVipActive() ? task.rewardVip : task.rewardNormal;
+    state.balance = +(state.balance + reward).toFixed(3);
+    state.totalMined = +(state.totalMined + reward).toFixed(3);
+    state.dailyTasks.completed[id] = true;
+    showToast(`✅ ${task.title}: +${reward.toLocaleString()} ANIM`);
+    updateUI(); saveUserData();
+  };
+
   if(task.type === 'ad'){
-    showToast('📺 Anuncio simulado... (AdsGram se integrará después)');
+    showRewardedAd()
+      .then(() => giveReward())
+      .catch(() => showToast('❌ Anuncio no completado'));
+    return;
   }
 
-  // Si tiene link externo, abrirlo
   if(task.link){
     window.open(task.link, '_blank');
   }
-
-  const reward = isVipActive() ? task.rewardVip : task.rewardNormal;
-  state.balance = +(state.balance + reward).toFixed(3);
-  state.totalMined = +(state.totalMined + reward).toFixed(3);
-  state.dailyTasks.completed[id] = true;
-
-  showToast(`✅ ${task.title}: +${reward.toLocaleString()} ANIM`);
-  updateUI(); saveUserData();
+  giveReward();
 }
 
 function renderTasks(){
@@ -1036,16 +1160,9 @@ document.getElementById('convert-btn').addEventListener('click', ()=>{
 });
 
 document.getElementById('connect-wallet-btn').addEventListener('click', ()=>{
-  const w = prompt('Dirección de billetera TON:');
-  if(w && w.trim().length > 10){
-    state.walletAddress = w.trim();
-    showToast('✅ Billetera vinculada');
-    updateUI(); saveUserData();
-  }
+  connectTonWallet();
 });
 
-// Energía: dura aproximadamente 2 horas (7200 segundos)
-// 100 / 7200 ≈ 0.0139 por segundo
 setInterval(()=>{
   if(state.energy > 0){
     state.pending = +(state.pending + state.miningRate).toFixed(6);
@@ -1063,26 +1180,32 @@ setInterval(()=>{
     }
     updateUI();
   } else {
-    // Mostrar botón de recarga cuando energía = 0
     const btn = document.getElementById('recharge-btn');
     if(btn) btn.style.display = 'block';
   }
 }, 1000);
 
-// Ya NO hay recarga automática. Solo con anuncio.
 function rechargeEnergy(){
-  // Aquí se integrará AdsGram más adelante.
-  // Por ahora simulamos ver el anuncio.
-  showToast('📺 Anuncio visto... Energía recargada 2 horas');
-  state.energy = state.maxEnergy;
-  document.getElementById('recharge-btn').style.display = 'none';
-  updateUI();
-  saveUserData();
+  showRewardedAd()
+    .then(() => {
+      state.energy = state.maxEnergy;
+      document.getElementById('recharge-btn').style.display = 'none';
+      showToast('⚡ Energía recargada (2h)');
+      updateUI();
+      saveUserData();
+    })
+    .catch(() => showToast('❌ Anuncio no completado'));
 }
 
 function startApp(){
   if(window.__started) return;
-  const go = ()=>{ if(window.__started) return; window.__started=true; loadUserData(); };
+  const go = ()=>{
+    if(window.__started) return;
+    window.__started = true;
+    initAdsGram();
+    initTonConnect();
+    loadUserData();
+  };
   if(window.firebaseDB) go();
   else { window.addEventListener('firebase-ready', go, {once:true}); setTimeout(go, 2000); }
 }
