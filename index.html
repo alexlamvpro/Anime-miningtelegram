@@ -1114,9 +1114,14 @@ document.querySelectorAll('.lang-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    state.lang = btn.dataset.lang;
+    state.language = btn.dataset.lang; // <- usa language, no lang
+    state.lang = btn.dataset.lang; // por compatibilidad
+    localStorage.setItem('animeMiningLang', btn.dataset.lang);
+    if(typeof applyTranslations === 'function') applyTranslations();
+    if(typeof updateUI === 'function') updateUI();
+    if(typeof renderBreathList === 'function') renderBreathList();
+    saveUserData(); // para que se guarde en Firebase
     showToast('🌐 Idioma actualizado');
-    saveUserData();
   });
 });
 
