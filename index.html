@@ -10,16 +10,19 @@
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
-  <!-- CSS Unificado para Telegram Mini App (Estilo Demon Slayer) -->
+  <!-- CSS Unificado para Telegram Mini App (Estilo Demon Slayer + Glassmorphism 3D) -->
   <style>
     :root {
       --bg: #0a0a0e;
-      --card-bg: #14141d;
+      --card-bg: rgba(18, 18, 28, 0.72);
+      --card-bg-solid: #13131c;
       --accent-red: #ff3b30;
       --accent-gold: #ffcc00;
       --text-main: #ffffff;
       --text-sub: #8e8e93;
-      --border: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.12);
+      --border-gold: rgba(255, 204, 0, 0.22);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
@@ -33,12 +36,26 @@
 
     body {
       background-color: var(--bg);
+      background-image: url("https://i.postimg.cc/0Q6j4B6x/1788760988257.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: var(--text-main);
       font-family: var(--font-family);
       display: flex;
       justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8, 8, 14, 0.55) 0%, rgba(8, 8, 14, 0.72) 100%);
+      z-index: -1;
+      pointer-events: none;
     }
 
     #app {
@@ -57,9 +74,14 @@
       justify-content: space-between;
       align-items: center;
       background: var(--card-bg);
+      background: var(--card-bg-solid);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding: 12px 16px;
-      border-radius: 16px;
+      border-radius: 18px;
       border: 1px solid var(--border);
+      box-shadow: var(--glass-shadow);
+      position: relative;
     }
 
     .user-info {
@@ -118,14 +140,30 @@
       color: var(--text-main);
     }
 
-    /* Tarjeta Principal de Minado */
+    /* Tarjeta Principal de Minado - Glassmorphism 3D */
     .mining-card {
-      background: var(--card-bg);
-      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(18, 18, 28, 0.75) 40%, rgba(12, 12, 20, 0.85) 100%);
+      background: var(--card-bg-solid);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 22px;
       padding: 24px 16px;
       text-align: center;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .mining-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      pointer-events: none;
     }
 
     .balance-display {
@@ -146,7 +184,7 @@
       border-radius: 50%;
       background: radial-gradient(circle, var(--accent-red) 0%, #800000 100%);
       border: 4px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 30px rgba(255, 59, 48, 0.4);
+      box-shadow: 0 0 40px rgba(255, 59, 48, 0.55), 0 0 80px rgba(255, 59, 48, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.2), inset 0 -4px 10px rgba(0, 0, 0, 0.4);
       color: #fff;
       font-size: 20px;
       font-weight: bold;
@@ -192,12 +230,21 @@
     /* Listas y Tarjetas Generales */
     .item-card {
       background: var(--card-bg);
-      border-radius: 14px;
+      background: var(--card-bg-solid);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 16px;
       padding: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .item-card:active {
+      transform: scale(0.98);
     }
 
     .btn-action {
@@ -222,13 +269,16 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 430px;
-      background: rgba(20, 20, 29, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(10, 10, 16, 0.88);
+      background: #0c0c12;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       justify-content: space-around;
-      padding: 10px 0;
-      border-top: 1px solid var(--border);
+      padding: 10px 0 14px;
+      border-top: 1px solid rgba(255, 204, 0, 0.12);
       z-index: 1000;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     .nav-item {
@@ -644,7 +694,7 @@
       const nameEl = document.getElementById("userNameDisplay");
       const avatarEl = document.getElementById("userAvatar");
 
-      if (balanceEl) balanceEl.innerText = state.balance.toFixed(2);
+      if (balanceEl) balanceEl.innerText = Number(state.balance).toFixed(2);
       if (breathEl) breathEl.innerText = `Nivel ${state.breathLevel}`;
       if (energyEl) energyEl.innerText = `${Math.floor(state.energy)}%`;
       if (energyFill) energyFill.style.width = `${Math.floor(state.energy)}%`;
