@@ -1,0 +1,9 @@
+{
+  "manifest_version": 2,
+  "name": "Anime Mining",
+  "iconUrl": "https://t.me/animemining_bot",
+  "termsOfUseUrl": "https://t.me/animemining_bot",
+  "privacyPolicyUrl": "https://t.me/animemining_bot",
+  "network": "mainnet",
+  "description": "Minado de tokens ANIM — Caza y gana con Anime Mining ⚔️🔥"
+}
