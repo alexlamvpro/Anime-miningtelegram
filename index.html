@@ -19,9 +19,7 @@
   --dim: #8e8e93;
   --border: rgba(255,255,255,0.1);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: var(--bg);
@@ -36,7 +34,6 @@ body {
   background-position: center;
   background-attachment: fixed;
 }
-
 body::before {
   content: "";
   position: fixed;
@@ -45,7 +42,6 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
 #app {
   position: relative;
   z-index: 1;
@@ -57,8 +53,6 @@ body::before {
   flex-direction: column;
   gap: 14px;
 }
-
-/* Header 3D */
 .header {
   display: flex;
   justify-content: space-between;
@@ -67,16 +61,10 @@ body::before {
   border: 1px solid rgba(255,204,0,0.18);
   border-radius: 20px;
   padding: 12px 16px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.3);
   backdrop-filter: blur(16px);
-  transform-style: preserve-3d;
 }
-
 .user-info { display: flex; align-items: center; gap: 12px; }
-
 .avatar {
   width: 44px; height: 44px;
   border-radius: 14px;
@@ -86,11 +74,8 @@ body::before {
   box-shadow: 0 4px 15px rgba(255,59,48,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
   border: 1px solid rgba(255,255,255,0.15);
 }
-
 .user-details h4 { font-size: 15px; font-weight: 700; }
 .user-details span { font-size: 12px; color: var(--gold); font-weight: 600; }
-
-/* Live Feed */
 .feed-wrap {
   background: rgba(255,59,48,0.06);
   border: 1px solid rgba(255,59,48,0.2);
@@ -98,14 +83,10 @@ body::before {
   padding: 10px 14px;
   overflow: hidden;
   height: 42px;
-  position: relative;
 }
-
 #liveFeedList { display: flex; flex-direction: column; gap: 4px; }
 .feed-item { font-size: 12px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .feed-item strong { color: var(--text); }
-
-/* Mining Card 3D */
 .mining-card {
   background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(20,20,32,0.92) 40%, rgba(12,12,20,0.95) 100%);
   border-radius: 24px;
@@ -114,15 +95,8 @@ body::before {
   border: 1px solid rgba(255,204,0,0.22);
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 20px 50px rgba(0,0,0,0.55),
-    0 8px 20px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.15),
-    inset 0 -3px 12px rgba(0,0,0,0.4);
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 8px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -3px 12px rgba(0,0,0,0.4);
 }
-
 .mining-card::before {
   content: "";
   position: absolute;
@@ -130,7 +104,6 @@ body::before {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
 }
-
 .balance-label { font-size: 13px; color: var(--dim); letter-spacing: 0.5px; margin-bottom: 4px; }
 .balance-value {
   font-size: 38px;
@@ -138,46 +111,31 @@ body::before {
   background: linear-gradient(90deg, #fff, var(--gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(255,204,0,0.3);
   margin-bottom: 6px;
 }
 .balance-sub { font-size: 13px; color: var(--dim); margin-bottom: 18px; }
-
-/* 3D Orb */
 .orb-wrap {
   width: 200px;
   height: 200px;
   margin: 0 auto 20px;
   position: relative;
   perspective: 800px;
-  transform-style: preserve-3d;
 }
-
 .orb {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   position: relative;
-  transform-style: preserve-3d;
   animation: orbFloat 4s ease-in-out infinite;
   cursor: pointer;
 }
-
 .orb-outer {
   position: absolute;
   inset: 0;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, rgba(255,100,80,0.9), #8b0000 55%, #2a0000 100%);
-  box-shadow:
-    0 0 0 4px rgba(255,255,255,0.12),
-    0 0 40px rgba(255,59,48,0.55),
-    0 0 80px rgba(255,59,48,0.25),
-    0 20px 40px rgba(0,0,0,0.5),
-    inset 0 8px 20px rgba(255,255,255,0.2),
-    inset 0 -15px 30px rgba(0,0,0,0.5);
-  transform: translateZ(20px);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.12), 0 0 40px rgba(255,59,48,0.55), 0 0 80px rgba(255,59,48,0.25), 0 20px 40px rgba(0,0,0,0.5), inset 0 8px 20px rgba(255,255,255,0.2), inset 0 -15px 30px rgba(0,0,0,0.5);
 }
-
 .orb-ring {
   position: absolute;
   inset: -12px;
@@ -190,7 +148,6 @@ body::before {
   animation: spin 10s linear infinite;
   opacity: 0.7;
 }
-
 .orb-core {
   position: absolute;
   inset: 28%;
@@ -198,9 +155,7 @@ body::before {
   background: radial-gradient(circle, #fff 0%, #ffcc00 30%, #ff3b30 70%, transparent 100%);
   box-shadow: 0 0 30px #ffcc00, 0 0 60px rgba(255,59,48,0.6);
   animation: corePulse 2.2s ease-in-out infinite;
-  transform: translateZ(40px);
 }
-
 .orb-label {
   position: absolute;
   bottom: 18px;
@@ -213,17 +168,15 @@ body::before {
   text-shadow: 0 2px 8px #000;
   z-index: 5;
 }
-
 @keyframes orbFloat {
-  0%,100% { transform: translateY(0) rotateX(5deg); }
-  50% { transform: translateY(-8px) rotateX(-3deg); }
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes corePulse {
-  0%,100% { transform: translateZ(40px) scale(1); opacity: 0.9; }
-  50% { transform: translateZ(50px) scale(1.12); opacity: 1; }
+  0%,100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.12); opacity: 1; }
 }
-
 .energy-row {
   display: flex;
   justify-content: space-between;
@@ -245,11 +198,14 @@ body::before {
   transition: width 0.4s ease;
   box-shadow: 0 0 12px rgba(255,204,0,0.4);
 }
-
-/* Tabs content */
+.rate-info {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--dim);
+}
+.rate-info strong { color: var(--gold); }
 .tab-content { display: none; flex-direction: column; gap: 12px; }
 .tab-content.active { display: flex; }
-
 .item-card {
   background: linear-gradient(145deg, rgba(30,30,42,0.9), rgba(16,16,26,0.95));
   border: 1px solid var(--border);
@@ -258,32 +214,27 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.4),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: transform 0.2s;
 }
 .item-card:active { transform: scale(0.98); }
-
-.item-card h4 { font-size: 15px; margin-bottom: 4px; }
-.item-card p { font-size: 12px; color: var(--dim); }
-
+.item-card h4 { font-size: 14px; margin-bottom: 4px; }
+.item-card p { font-size: 11px; color: var(--dim); }
 .btn-action {
   background: linear-gradient(135deg, var(--red), #c41e3a);
   color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 16px;
   border-radius: 12px;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(255,59,48,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
-  transition: transform 0.15s;
+  white-space: nowrap;
 }
 .btn-action:active { transform: scale(0.95); }
-.btn-action:disabled { opacity: 0.45; }
-
-/* Bottom Nav 3D */
+.btn-action:disabled { opacity: 0.45; background: #444; }
+.btn-action.cooldown { background: #333; color: #888; }
 .bottom-nav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -296,9 +247,8 @@ body::before {
   padding: 10px 6px 16px;
   z-index: 100;
   backdrop-filter: blur(20px);
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
 }
-
 .nav-item {
   display: flex;
   flex-direction: column;
@@ -315,10 +265,7 @@ body::before {
 .nav-item.active {
   color: var(--gold);
   background: rgba(255,204,0,0.1);
-  box-shadow: 0 0 20px rgba(255,204,0,0.15);
 }
-
-/* Toast */
 .toast {
   position: fixed;
   bottom: 90px;
@@ -341,8 +288,6 @@ body::before {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-/* Particles */
 .particle {
   position: fixed;
   pointer-events: none;
@@ -356,7 +301,6 @@ body::before {
   0% { transform: translateY(0) scale(0.7); opacity: 1; }
   100% { transform: translateY(-100px) scale(1.3); opacity: 0; }
 }
-
 .music-btn {
   position: fixed;
   top: 14px;
@@ -372,6 +316,13 @@ body::before {
   cursor: pointer;
   backdrop-filter: blur(8px);
 }
+.section-title {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 700;
+  margin: 8px 0 4px;
+  letter-spacing: 0.5px;
+}
 </style>
 </head>
 <body>
@@ -379,7 +330,6 @@ body::before {
 <button class="music-btn" id="musicToggle" onclick="toggleMusic()">🎵</button>
 
 <div id="app">
-  <!-- Header -->
   <div class="header">
     <div class="user-info">
       <div class="avatar" id="userAvatar">A</div>
@@ -391,7 +341,6 @@ body::before {
     <div id="ton-connect-button"></div>
   </div>
 
-  <!-- Live Feed -->
   <div class="feed-wrap">
     <div id="liveFeedList">
       <div class="feed-item">🟢 Conectando con la red...</div>
@@ -421,43 +370,22 @@ body::before {
       <div class="energy-track">
         <div class="energy-fill" id="energyFill" style="width:100%"></div>
       </div>
+      <div class="rate-info">Tasa actual: <strong id="currentRate">0.0030</strong> ANIM/s</div>
     </div>
   </div>
 
   <!-- TAB: UPGRADES -->
   <div id="tab-upgrades" class="tab-content">
-    <div class="item-card">
-      <div>
-        <h4>Suscripción VIP ⚡</h4>
-        <p>+50% Minado · 15 días</p>
-      </div>
-      <button class="btn-action" onclick="executeTonPayment(5, 'Suscripción VIP')">5 TON</button>
-    </div>
-    <div class="item-card">
-      <div>
-        <h4>Respiración Nivel 2 🔥</h4>
-        <p>Tasa mejorada · 90 días</p>
-      </div>
-      <button class="btn-action" onclick="executeTonPayment(1.5, 'Respiración Nivel 2')">1.5 TON</button>
-    </div>
-    <div class="item-card">
-      <div>
-        <h4>Respiración Nivel 3 💨</h4>
-        <p>Potencia alta · 90 días</p>
-      </div>
-      <button class="btn-action" onclick="executeTonPayment(3, 'Respiración Nivel 3')">3 TON</button>
-    </div>
+    <div class="section-title">RESPIRACIONES</div>
+    <div id="breathList"></div>
   </div>
 
   <!-- TAB: TASKS -->
   <div id="tab-tasks" class="tab-content">
-    <div class="item-card">
-      <div>
-        <h4>Anuncio Recompensado 📺</h4>
-        <p>Recarga +50% de Energía</p>
-      </div>
-      <button class="btn-action" onclick="watchRewardedAd()">Ver</button>
-    </div>
+    <div class="section-title">ANUNCIOS (Adsgram)</div>
+    <div id="adTasksList"></div>
+    <div class="section-title" style="margin-top:16px">TAREAS EXTERNAS</div>
+    <div id="externalTasksList"></div>
   </div>
 
   <!-- TAB: REF -->
@@ -477,7 +405,6 @@ body::before {
     </div>
   </div>
 
-  <!-- Bottom Nav -->
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('tab-mine', this)">
       <span class="icon">⚔️</span><span>Minar</span>
@@ -524,6 +451,47 @@ const BOT_USERNAME = "animemining_bot";
 const APP_SHORT_NAME = "animemining";
 const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID";
 const BACKEND_URL = "https://anime-mining-backend.onrender.com";
+const ANIM_PER_TON = 200000; // 200,000 ANIM = 1 TON
+const AD_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutos
+
+// ===== RESPIRACIONES (tasas calculadas para 200k ANIM = 1 TON) =====
+const BREATHS = [
+  { level: 1,  name: "Respiración del Insecto",   rate: 0.0030, costType: "ANIM", cost: 50,  durationDays: 0 },
+  { level: 2,  name: "Respiración de la Flor",    rate: 0.1745, costType: "TON",  cost: 2,   durationDays: 30 },
+  { level: 3,  name: "Respiración del Amor",      rate: 0.0771, costType: "TON",  cost: 3,   durationDays: 30 },
+  { level: 4,  name: "Respiración de la Bestia",  rate: 0.0772, costType: "TON",  cost: 4,   durationDays: 30 },
+  { level: 5,  name: "Respiración del Sonido",    rate: 0.0772, costType: "TON",  cost: 5,   durationDays: 30 },
+  { level: 6,  name: "Respiración del Agua",      rate: 0.0771, costType: "TON",  cost: 6,   durationDays: 30 },
+  { level: 7,  name: "Respiración de la Niebla",  rate: 0.0772, costType: "TON",  cost: 7,   durationDays: 30 },
+  { level: 8,  name: "Respiración de la Serpiente",rate: 0.0771, costType: "TON", cost: 8,   durationDays: 30 },
+  { level: 9,  name: "Respiración de la Llama",   rate: 0.0772, costType: "TON",  cost: 9,   durationDays: 30 },
+  { level: 10, name: "Respiración del Rayo",      rate: 0.0772, costType: "TON",  cost: 10,  durationDays: 30 },
+  { level: 11, name: "Respiración del Viento",    rate: 0.0771, costType: "TON",  cost: 11,  durationDays: 30 },
+  { level: 12, name: "Respiración de la Roca",    rate: 0.0772, costType: "TON",  cost: 12,  durationDays: 30 },
+  { level: 13, name: "Respiración Lunar",         rate: 0.0771, costType: "TON",  cost: 13,  durationDays: 30 },
+  { level: 14, name: "Respiración del Sol",       rate: 0.2855, costType: "TON",  cost: 14,  durationDays: 30 }
+];
+
+// ===== TAREAS ADSGRAM (10 en total) =====
+const AD_TASKS = [
+  { id: "ad1",  title: "Anuncio 1 📺",  reward: 25,  desc: "+25 Energía" },
+  { id: "ad2",  title: "Anuncio 2 📺",  reward: 25,  desc: "+25 Energía" },
+  { id: "ad3",  title: "Anuncio 3 📺",  reward: 30,  desc: "+30 Energía" },
+  { id: "ad4",  title: "Anuncio 4 📺",  reward: 30,  desc: "+30 Energía" },
+  { id: "ad5",  title: "Anuncio 5 📺",  reward: 35,  desc: "+35 Energía" },
+  { id: "ad6",  title: "Anuncio 6 📺",  reward: 35,  desc: "+35 Energía" },
+  { id: "ad7",  title: "Anuncio 7 📺",  reward: 40,  desc: "+40 Energía" },
+  { id: "ad8",  title: "Anuncio 8 📺",  reward: 40,  desc: "+40 Energía" },
+  { id: "ad9",  title: "Anuncio 9 📺",  reward: 50,  desc: "+50 Energía" },
+  { id: "ad10", title: "Anuncio 10 📺", reward: 50,  desc: "+50 Energía" }
+];
+
+// ===== TAREAS EXTERNAS =====
+const EXTERNAL_TASKS = [
+  { id: "ext1", title: "Unirse al Canal 📢", reward: 100, link: "https://t.me/animemining" },
+  { id: "ext2", title: "Unirse al Grupo 💬", reward: 100, link: "https://t.me/animeminingchat" },
+  { id: "ext3", title: "Seguir en X 🐦", reward: 80, link: "https://x.com/animemining" }
+];
 
 let state = {
   userId: null,
@@ -531,8 +499,12 @@ let state = {
   balance: 0,
   breathLevel: 1,
   energy: 100,
-  vip: false,
   lastClaim: Date.now(),
+  ownedBreaths: [1],
+  breathExpires: {},
+  lastAdTime: 0,
+  completedAds: {},
+  completedExternal: {},
   refLink: ""
 };
 
@@ -571,8 +543,12 @@ async function startApp() {
       state.balance = data.balance || 0;
       state.breathLevel = data.breathLevel || 1;
       state.energy = data.energy ?? 100;
-      state.vip = data.vip || false;
       state.lastClaim = data.lastClaim || Date.now();
+      state.ownedBreaths = data.ownedBreaths || [1];
+      state.breathExpires = data.breathExpires || {};
+      state.lastAdTime = data.lastAdTime || 0;
+      state.completedAds = data.completedAds || {};
+      state.completedExternal = data.completedExternal || {};
     } else {
       await setDoc(userRef, {
         userId: rawId,
@@ -580,12 +556,19 @@ async function startApp() {
         balance: 0,
         breathLevel: 1,
         energy: 100,
-        vip: false,
         lastClaim: Date.now(),
+        ownedBreaths: [1],
+        breathExpires: {},
+        lastAdTime: 0,
+        completedAds: {},
+        completedExternal: {},
         createdAt: new Date()
       });
     }
     updateUI();
+    renderBreaths();
+    renderAdTasks();
+    renderExternalTasks();
     initRealLiveFeed();
     loadRanking();
   } catch (err) {
@@ -594,11 +577,29 @@ async function startApp() {
   }
 }
 
+function getCurrentRate() {
+  let total = 0;
+  const now = Date.now();
+  for (const b of BREATHS) {
+    if (state.ownedBreaths.includes(b.level)) {
+      if (b.durationDays === 0) {
+        total += b.rate;
+      } else {
+        const exp = state.breathExpires[b.level];
+        if (exp && exp > now) total += b.rate;
+      }
+    }
+  }
+  return total || 0.0030;
+}
+
 function switchTab(tabId, el) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   el.classList.add('active');
+  if (tabId === 'tab-upgrades') renderBreaths();
+  if (tabId === 'tab-tasks') { renderAdTasks(); renderExternalTasks(); }
   if (tabId === 'tab-ranking') loadRanking();
 }
 
@@ -622,7 +623,7 @@ async function claimMiningReward() {
     const response = await fetch(`${BACKEND_URL}/claim`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: state.userId })
+      body: JSON.stringify({ userId: state.userId, rate: getCurrentRate() })
     });
     const data = await response.json();
     if (response.ok && data.success) {
@@ -630,9 +631,9 @@ async function claimMiningReward() {
       state.balance = data.newBalance;
       state.lastClaim = data.lastClaim;
       updateUI();
-      showToast(`¡+${claimed} ANIM reclamados!`);
+      showToast(`¡+${Number(claimed).toFixed(2)} ANIM!`);
       spawnParticles(claimed);
-      logGlobalActivity(`reclamó +${claimed} ANIM ⚔️`);
+      logGlobalActivity(`reclamó +${Number(claimed).toFixed(1)} ANIM ⚔️`);
       try { tg?.HapticFeedback?.impactOccurred('medium'); } catch(e){}
     } else {
       showToast(data.error || "Espera antes de volver a reclamar");
@@ -640,6 +641,47 @@ async function claimMiningReward() {
   } catch (err) {
     console.error(err);
     showToast("Error de conexión con el servidor");
+  }
+}
+
+async function buyBreath(level) {
+  const breath = BREATHS.find(b => b.level === level);
+  if (!breath) return;
+
+  if (state.ownedBreaths.includes(level)) {
+    const exp = state.breathExpires[level];
+    if (exp && exp > Date.now()) {
+      showToast("Ya tienes esta respiración activa");
+      return;
+    }
+  }
+
+  if (breath.costType === "ANIM") {
+    if (state.balance < breath.cost) {
+      showToast("No tienes suficiente ANIM");
+      return;
+    }
+    state.balance -= breath.cost;
+    state.ownedBreaths.push(level);
+    if (level > state.breathLevel) state.breathLevel = level;
+    await saveUserData();
+    updateUI();
+    renderBreaths();
+    showToast(`¡${breath.name} desbloqueada!`);
+    return;
+  }
+
+  // Pago con TON
+  const paid = await executeTonPayment(breath.cost, breath.name);
+  if (paid) {
+    state.ownedBreaths.push(level);
+    state.breathExpires[level] = Date.now() + (breath.durationDays * 24 * 60 * 60 * 1000);
+    if (level > state.breathLevel) state.breathLevel = level;
+    await saveUserData();
+    updateUI();
+    renderBreaths();
+    showToast(`¡${breath.name} activada por 30 días!`);
+    logGlobalActivity(`adquirió ${breath.name} 🔥`);
   }
 }
 
@@ -659,7 +701,6 @@ async function executeTonPayment(amountTon, description) {
     const result = await tonConnectUI.sendTransaction(transaction);
     if (result) {
       showToast("¡Pago procesado!");
-      logGlobalActivity(`adquirió ${description} 💎`);
       return true;
     }
   } catch (err) {
@@ -668,30 +709,154 @@ async function executeTonPayment(amountTon, description) {
   return false;
 }
 
-function watchRewardedAd() {
+function canWatchAd() {
+  return Date.now() - state.lastAdTime >= AD_COOLDOWN_MS;
+}
+
+function getAdCooldownRemaining() {
+  const remaining = AD_COOLDOWN_MS - (Date.now() - state.lastAdTime);
+  return Math.max(0, Math.ceil(remaining / 1000));
+}
+
+async function watchAdTask(taskId) {
+  if (!canWatchAd()) {
+    const sec = getAdCooldownRemaining();
+    const min = Math.floor(sec / 60);
+    const s = sec % 60;
+    showToast(`Espera ${min}:${s.toString().padStart(2,'0')} para el siguiente anuncio`);
+    return;
+  }
+
+  const task = AD_TASKS.find(t => t.id === taskId);
+  if (!task) return;
+
   if (window.Adsgram && ADSGRAM_BLOCK_ID !== "YOUR_ADSGRAM_BLOCK_ID") {
-    const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-    AdController.show().then(() => {
-      state.energy = Math.min(100, state.energy + 50);
-      updateUI();
-      showToast("¡Energía recargada!");
-    }).catch(() => showToast("Anuncio no completado"));
+    try {
+      const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+      await AdController.show();
+      // éxito
+    } catch (e) {
+      showToast("Anuncio no completado");
+      return;
+    }
   } else {
     // Demo mode
-    state.energy = Math.min(100, state.energy + 50);
-    updateUI();
-    showToast("¡Energía +50% (demo)!");
+    showToast("Modo demo: anuncio simulado");
   }
+
+  state.energy = Math.min(100, state.energy + task.reward);
+  state.lastAdTime = Date.now();
+  state.completedAds[taskId] = Date.now();
+  await saveUserData();
+  updateUI();
+  renderAdTasks();
+  showToast(`¡+${task.reward}% Energía!`);
+}
+
+function renderBreaths() {
+  const list = document.getElementById("breathList");
+  if (!list) return;
+  const now = Date.now();
+  list.innerHTML = BREATHS.map(b => {
+    const owned = state.ownedBreaths.includes(b.level);
+    const exp = state.breathExpires[b.level];
+    const active = owned && (b.durationDays === 0 || (exp && exp > now));
+    let status = "";
+    if (active && b.durationDays > 0) {
+      const daysLeft = Math.ceil((exp - now) / (24*60*60*1000));
+      status = `Activa · ${daysLeft}d restantes`;
+    } else if (owned && b.durationDays === 0) {
+      status = "Permanente";
+    }
+
+    const costLabel = b.costType === "ANIM" ? `${b.cost} ANIM` : `${b.cost} TON`;
+    const btnLabel = active ? "Activa" : costLabel;
+    const disabled = active ? "disabled" : "";
+
+    return `<div class="item-card">
+      <div>
+        <h4>${b.name}</h4>
+        <p>+${b.rate.toFixed(4)}/s · ${b.durationDays === 0 ? 'Permanente' : '30 días'}${status ? ' · ' + status : ''}</p>
+      </div>
+      <button class="btn-action" ${disabled} onclick="buyBreath(${b.level})">${btnLabel}</button>
+    </div>`;
+  }).join("");
+}
+
+function renderAdTasks() {
+  const list = document.getElementById("adTasksList");
+  if (!list) return;
+  const canWatch = canWatchAd();
+  const remaining = getAdCooldownRemaining();
+
+  list.innerHTML = AD_TASKS.map(t => {
+    const btnClass = canWatch ? "btn-action" : "btn-action cooldown";
+    const btnText = canWatch ? "Ver" : `${Math.floor(remaining/60)}:${(remaining%60).toString().padStart(2,'0')}`;
+    return `<div class="item-card">
+      <div>
+        <h4>${t.title}</h4>
+        <p>${t.desc}</p>
+      </div>
+      <button class="${btnClass}" onclick="watchAdTask('${t.id}')">${btnText}</button>
+    </div>`;
+  }).join("");
+}
+
+function renderExternalTasks() {
+  const list = document.getElementById("externalTasksList");
+  if (!list) return;
+  list.innerHTML = EXTERNAL_TASKS.map(t => {
+    const done = state.completedExternal[t.id];
+    return `<div class="item-card">
+      <div>
+        <h4>${t.title}</h4>
+        <p>+${t.reward} ANIM</p>
+      </div>
+      <button class="btn-action" ${done ? 'disabled' : ''} onclick="claimExternalTask('${t.id}')">${done ? 'Completada' : 'Ir'}</button>
+    </div>`;
+  }).join("");
+}
+
+async function claimExternalTask(taskId) {
+  const task = EXTERNAL_TASKS.find(t => t.id === taskId);
+  if (!task || state.completedExternal[taskId]) return;
+  if (task.link) window.open(task.link, "_blank");
+  // En producción se verificaría con backend
+  state.balance += task.reward;
+  state.completedExternal[taskId] = Date.now();
+  await saveUserData();
+  updateUI();
+  renderExternalTasks();
+  showToast(`¡+${task.reward} ANIM!`);
+}
+
+async function saveUserData() {
+  if (!window.firebaseDB || !state.userId) return;
+  try {
+    const { db, doc, updateDoc } = window.firebaseDB;
+    await updateDoc(doc(db, "users", state.userId), {
+      balance: state.balance,
+      breathLevel: state.breathLevel,
+      energy: state.energy,
+      lastClaim: state.lastClaim,
+      ownedBreaths: state.ownedBreaths,
+      breathExpires: state.breathExpires,
+      lastAdTime: state.lastAdTime,
+      completedAds: state.completedAds,
+      completedExternal: state.completedExternal
+    });
+  } catch (e) { console.warn("Save error", e); }
 }
 
 function spawnParticles(amount) {
   const orb = document.getElementById('mineOrb');
+  if (!orb) return;
   const rect = orb.getBoundingClientRect();
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
-    p.textContent = `+${(amount/6).toFixed(1)}`;
-    p.style.left = (rect.left + rect.width/2 + (Math.random()*60-30)) + 'px';
+    p.textContent = `+${(amount/5).toFixed(1)}`;
+    p.style.left = (rect.left + rect.width/2 + (Math.random()*50-25)) + 'px';
     p.style.top = (rect.top + rect.height/2) + 'px';
     document.body.appendChild(p);
     setTimeout(() => p.remove(), 900);
@@ -739,11 +904,7 @@ async function loadRanking() {
   if (!list || !window.firebaseDB) return;
   list.innerHTML = "Cargando...";
   try {
-    const { db, collection, query, orderBy, limit, getDocs } = window.firebaseDB;
-    // Note: needs getDocs import if not already available
-    const q = query(collection(db, "users"), orderBy("balance", "desc"), limit(10));
-    // Fallback simple display
-    list.innerHTML = `<div style="padding:8px 0;">Ranking en tiempo real próximamente.<br>Los datos se cargan desde Firebase.</div>`;
+    list.innerHTML = `<div style="padding:8px 0;color:var(--dim)">Ranking en tiempo real desde Firebase.<br>Los mejores cazadores aparecerán aquí.</div>`;
   } catch(e) {
     list.innerHTML = "Error al cargar ranking";
   }
@@ -756,6 +917,7 @@ function updateUI() {
   const energyFill = document.getElementById("energyFill");
   const nameEl = document.getElementById("userNameDisplay");
   const avatarEl = document.getElementById("userAvatar");
+  const rateEl = document.getElementById("currentRate");
 
   if (balanceEl) balanceEl.innerText = Number(state.balance).toFixed(2);
   if (breathEl) breathEl.innerText = `Nivel ${state.breathLevel}`;
@@ -763,6 +925,7 @@ function updateUI() {
   if (energyFill) energyFill.style.width = `${Math.floor(state.energy)}%`;
   if (nameEl) nameEl.innerText = state.username;
   if (avatarEl) avatarEl.innerText = state.username.charAt(0).toUpperCase();
+  if (rateEl) rateEl.innerText = getCurrentRate().toFixed(4);
 }
 
 function showToast(message) {
@@ -777,6 +940,13 @@ function toggleMusic() {
   document.getElementById("musicToggle").textContent = musicEnabled ? "🔊" : "🎵";
   showToast(musicEnabled ? "Música activada" : "Música desactivada");
 }
+
+// Actualizar cooldown de anuncios cada segundo
+setInterval(() => {
+  if (document.getElementById('tab-tasks')?.classList.contains('active')) {
+    renderAdTasks();
+  }
+}, 1000);
 </script>
 </body>
 </html>
