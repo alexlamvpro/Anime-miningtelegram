@@ -1,9 +1,13 @@
 {
   "manifest_version": 2,
   "name": "Anime Mining",
-  "iconUrl": "https://t.me/animemining_bot",
-  "termsOfUseUrl": "https://t.me/animemining_bot",
-  "privacyPolicyUrl": "https://t.me/animemining_bot",
+  "description": "Minado de tokens ANIM — Caza y gana con Anime Mining ⚔️🔥",
+  "iconUrl": "https://raw.githubusercontent.com/alexlamvpro/Anime-miningtelegram/main/logo.png",
+  "termsOfUseUrl": "https://alexlamvpro.github.io/Anime-miningtelegram/",
+  "privacyPolicyUrl": "https://alexlamvpro.github.io/Anime-miningtelegram/",
   "network": "mainnet",
-  "description": "Minado de tokens ANIM — Caza y gana con Anime Mining ⚔️🔥"
+  "app": {
+    "name": "Anime Mining",
+    "url": "https://alexlamvpro.github.io/Anime-miningtelegram/"
+  }
 }
