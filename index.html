@@ -23,7 +23,10 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 .mining-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent)}
 .balance-label{font-size:13px;color:var(--dim);margin-bottom:4px}
 .balance-value{font-size:38px;font-weight:800;background:linear-gradient(90deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-.balance-sub{font-size:13px;color:var(--dim);margin-bottom:18px}
+.balance-sub{font-size:13px;color:var(--dim);margin-bottom:8px}
+.pending-box{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:14px;padding:8px 14px;border-radius:12px;background:rgba(255,204,0,.08);border:1px solid rgba(255,204,0,.2)}
+.pending-label{font-size:12px;color:var(--dim)}
+.pending-value{font-size:16px;font-weight:800;color:var(--gold)}
 .orb-wrap{width:200px;height:200px;margin:0 auto 20px;position:relative;perspective:800px}
 .orb{width:100%;height:100%;border-radius:50%;position:relative;animation:orbFloat 4s ease-in-out infinite;cursor:pointer}
 .orb-outer{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,100,80,.9),#8b0000 55%,#2a0000 100%);box-shadow:0 0 0 4px rgba(255,255,255,.12),0 0 40px rgba(255,59,48,.55),0 0 80px rgba(255,59,48,.25),0 20px 40px rgba(0,0,0,.5),inset 0 8px 20px rgba(255,255,255,.2)}
@@ -101,6 +104,11 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
     <div class="balance-label" data-i18n="balance">Saldo Acumulado</div>
     <div class="balance-value"><span id="userBalance">0.00</span></div>
     <div class="balance-sub">ANIM Token</div>
+    <div class="pending-box">
+      <span class="pending-label">Pendiente</span>
+      <span class="pending-value" id="pendingAmount">0.0000</span>
+      <span class="pending-label">ANIM</span>
+    </div>
     <div class="orb-wrap"><div class="orb" id="mineOrb" onclick="claimMiningReward()"><div class="orb-ring"></div><div class="orb-outer"></div><div class="orb-core"></div><div class="orb-label" data-i18n="claim">RECLAMAR</div></div></div>
     <div class="energy-row"><span data-i18n="energy">Energía</span><span id="userEnergy">100%</span></div>
     <div class="energy-track"><div class="energy-fill" id="energyFill" style="width:100%"></div></div>
@@ -237,6 +245,18 @@ function shareReferralLink(){
   const link=getReferralLink(state.userId);
   const shareUrl=`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent("¡Únete a Anime Mining! 🔥")}`;
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(shareUrl); else { navigator.clipboard.writeText(link); showToast("¡Enlace copiado!"); }
+}
+function getPendingAmount(){
+  const rate = getCurrentRate();
+  const now = Date.now();
+  const last = Number(state.lastClaim) || now;
+  const elapsed = Math.min(Math.max(0, (now - last) / 1000), 8 * 3600);
+  return elapsed * rate;
+}
+function updatePending(){
+  const el = document.getElementById('pendingAmount');
+  if (!el) return;
+  el.textContent = getPendingAmount().toFixed(4);
 }
 async function claimLocalFallback(){
   const rate = getCurrentRate();
@@ -376,10 +396,11 @@ async function loadRanking(){ const list=document.getElementById("rankingList");
 function updateUI(){
   const b=document.getElementById("userBalance"); const br=document.getElementById("userBreathLevel"); const e=document.getElementById("userEnergy"); const ef=document.getElementById("energyFill"); const n=document.getElementById("userNameDisplay"); const a=document.getElementById("userAvatar"); const r=document.getElementById("currentRate");
   if(b) b.innerText=Number(state.balance).toFixed(2); if(br) br.innerText=`Nivel ${state.breathLevel}`; if(e) e.innerText=`${Math.floor(state.energy)}%`; if(ef) ef.style.width=`${Math.floor(state.energy)}%`; if(n) n.innerText=state.username; if(a) a.innerText=state.username.charAt(0).toUpperCase(); if(r) r.innerText=getCurrentRate().toFixed(4);
+  updatePending();
 }
 function showToast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
 function toggleMusic(){ musicEnabled=!musicEnabled; document.getElementById("musicToggle").textContent=musicEnabled?"🔊":"🎵"; const btn=document.getElementById("settingsMusicBtn"); if(btn) btn.textContent=musicEnabled?"🔊":"🎵"; }
-setInterval(()=>{ if(document.getElementById('tab-tasks')?.classList.contains('active')) renderAdTasks(); },1000);
+setInterval(()=>{ updatePending(); if(document.getElementById('tab-tasks')?.classList.contains('active')) renderAdTasks(); },1000);
 </script>
 </body>
 </html>
