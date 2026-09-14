@@ -96,7 +96,7 @@ body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg
 <div class="modal" id="langModal"><div class="modal-sheet"><div class="modal-head"><h3 data-i18n="language">Idioma</h3><button class="close-modal" onclick="closeModal('langModal')">×</button></div>
 <div class="lang-row"><button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">🇪🇸 Español</button><button class="lang-btn" data-lang="en" onclick="setLanguage('en')">🇬🇧 English</button><button class="lang-btn" data-lang="ru" onclick="setLanguage('ru')">🇷🇺 Русский</button><button class="lang-btn" data-lang="pt" onclick="setLanguage('pt')">🇧🇷 Português</button></div></div></div>
 <div class="modal" id="termsModal"><div class="modal-sheet"><div class="modal-head"><h3 data-i18n="terms">Términos y Condiciones</h3><button class="close-modal" onclick="closeModal('termsModal')">×</button></div>
-<div class="terms-content"><h3>1. Naturaleza del Juego</h3><p>Anime Mining es un mini-juego de minería virtual de tokens ANIM dentro de Telegram.</p><h3>2. Tokens ANIM</h3><p>Conversión aproximada: 200,000 ANIM = 1 TON.</p><h3>3. Respiraciones</h3><p>Niveles 2-14 duran 30 días (TON). Nivel 1 permanente (ANIM).</p><h3>4. Pagos TON</h3><p>Transacciones finales vía TON Connect.</p><h3>5. Anuncios</h3><p>Cooldowngram: cooldown 5 minutos entre anuncios.</p><h3>6. Responsabilidad</h3><p>El usuario es responsable de su billetera.</p></div></div></div>
+<div class="terms-content"><h3>1. Naturaleza del Juego</h3><p>Anime Mining es un mini-juego de minería virtual de tokens ANIM dentro de Telegram.</p><h3>2. Tokens ANIM</h3><p>Conversión aproximada: 200,000 ANIM = 1 TON.</p><h3>3. Respiraciones</h3><p>Niveles 2-14 duran 30 días (TON). Nivel 1 permanente (ANIM).</p><h3>4. Pagos TON</h3><p>Transacciones finales vía TON Connect.</p><h3>5. Anuncios</h3><p>Adsgram: cooldown 5 minutos entre anuncios.</p><h3>6. Responsabilidad</h3><p>El usuario es responsable de su billetera.</p></div></div></div>
 <div id="app">
   <div class="header"><div class="user-info"><div class="avatar" id="userAvatar">A</div><div class="user-details"><h4 id="userNameDisplay">Cargando...</h4><span id="userBreathLevel">Nivel 1</span></div></div><div id="ton-connect-button"></div></div>
   <div class="feed-wrap"><div id="liveFeedList"><div class="feed-item">🟢 Conectando...</div></div></div>
@@ -137,7 +137,7 @@ window.dispatchEvent(new Event('firebase-ready'));
 const TON_MERCHANT_ADDRESS = "UQDJCkwgsPujYmOaxLNorDV_sYEZLQ7-TjW6C8VexwJNwMhA";
 const BOT_USERNAME = "animemining_bot";
 const APP_SHORT_NAME = "animemining";
-const ADSGRAM_BLOCK_ID = "task-47792";
+const ADSGRAM_BLOCK_ID = "47792";
 const BACKEND_URL = "https://anime-mining-backend.onrender.com";
 const AD_COOLDOWN_MS = 5 * 60 * 1000;
 const LINKS = { channel:"https://t.me/ANIME_MINING_OFICIAL", chat:"https://t.me/+c34ziM0gjlJjMWJh", support:"https://t.me/+J52GmerlZPpmZGVh" };
@@ -304,7 +304,7 @@ async function buyBreath(level){
     if(level>state.breathLevel) state.breathLevel=level;
     await saveUserData(); updateUI(); renderBreaths(); showToast(`¡${breath.name} desbloqueada!`); return;
   }
-  const paid=await executeTonPayment(breath.cost,breath.name);
+  const paid=await executeTonPayment(breath.cost);
   if(paid){
     state.ownedBreaths.push(level);
     state.breathExpires[level]=Date.now()+(breath.durationDays*24*60*60*1000);
